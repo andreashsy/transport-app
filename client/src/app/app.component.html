@@ -1,5 +1,5 @@
 <h2>Bus Stops - {{clientVersion}}</h2>
-<p *ngIf="clientVersion != serverVersion">New version of app available, please refresh this page</p>
+<p *ngIf="clientVersion != serverVersion && serverVersion">New version of app available, please refresh this page</p>
 
 <h4>Search bus stops (description/road name) - ({{numStops}} bus stops in service)</h4>
 <form [formGroup]="searchForm" (ngSubmit)="search()">
