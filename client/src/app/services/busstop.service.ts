@@ -42,7 +42,7 @@ export class BusStopService extends Dexie {
 
     public async search(queryTerm: string): Promise<BusStop[]> {
         return await this.busStop
-            .filter(bs => bs.Description.toLowerCase().includes(queryTerm) || bs.RoadName.toLowerCase().includes(queryTerm))
+            .filter((bs: BusStop) => bs.Description.toLowerCase().includes(queryTerm) || bs.RoadName.toLowerCase().includes(queryTerm))
             .toArray()
     }
 }
