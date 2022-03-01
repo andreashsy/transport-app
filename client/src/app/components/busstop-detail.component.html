@@ -1,0 +1,22 @@
+<h2>Details for Bus Stop {{busStopId}}</h2>
+<div *ngIf="busServices.length <= 0">
+  <p>No bus services found</p>
+</div>
+<div *ngIf="busServices.length > 0">
+  <ul *ngFor="let busService of busServices">
+    <li>
+      Service Number: {{busService.ServiceNo}} -
+      <span *ngIf="busService.NextBus?.EstimatedArrival" [ngClass]="busService.NextBus!.Load">
+        First Bus: {{((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes
+      </span>
+      <span *ngIf="busService.NextBus2?.EstimatedArrival" [ngClass]="busService.NextBus2!.Load">
+         - Second Bus: {{((busService.NextBus2!.EstArr!.valueOf() - timeNow) - (busService.NextBus2!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes
+      </span>
+      <span *ngIf="busService.NextBus3?.EstimatedArrival" [ngClass]="busService.NextBus3!.Load">
+         - Third Bus: {{((busService.NextBus3!.EstArr!.valueOf() - timeNow) - (busService.NextBus3!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes
+      </span>
+
+    </li>
+  </ul>
+</div>
+<button [routerLink]="['']">Back</button>

@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BusService, BusStop } from './models/model';
-import { BusArrivalService } from './services/busarrival.service';
-import { BusStopService } from './services/busstop.service';
-import { VersionService } from './services/version.service';
+import { BusService, BusStop } from '../models/model';
+import { BusArrivalService } from '../services/busarrival.service';
+import { BusStopService } from '../services/busstop.service';
+import { VersionService } from '../services/version.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.css']
 })
-export class AppComponent implements OnInit {
-  title = 'client';
+export class MainComponent implements OnInit {
   searchForm!: FormGroup
   arrivalForm!: FormGroup
   busStops: BusStop[] = []
@@ -86,7 +85,6 @@ export class AppComponent implements OnInit {
       .catch(error => {
         console.error("app.component.ts getArrivalData ERROR: ", error)
       })
-
   }
 
   async reloadBusStops() {
@@ -99,4 +97,5 @@ export class AppComponent implements OnInit {
         console.error(error)
       })
   }
+
 }

@@ -34,8 +34,10 @@ public class BusService {
     public BusService() {
         if ((KEY_LTA != null) && (KEY_LTA.trim().length() > 0)) {
             this.accountKey = KEY_LTA;
+            System.out.println(">>> LTA KEY SET!");
         } else {
             this.accountKey = "API KEY NOT FOUND";
+            System.out.println(">>> ERROR!! LTA KEY NOT FOUND!");
         }
     }
 

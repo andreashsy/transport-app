@@ -7,17 +7,28 @@ import { AppComponent } from './app.component';
 import { BusStopService } from './services/busstop.service';
 import { BusArrivalService } from './services/busarrival.service';
 import { VersionService } from './services/version.service';
+import { BusstopDetailComponent } from './components/busstop-detail.component';
+import { RouterModule, Routes } from '@angular/router';
+import { MainComponent } from './components/main.component';
+
+const appRoutes: Routes = [
+  { path: 'busStop/:busStopId', component: BusstopDetailComponent},
+  { path: '', component: MainComponent}
+]
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BusstopDetailComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [ 
+  providers: [
     BusStopService,
     BusArrivalService,
     VersionService
