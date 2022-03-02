@@ -1,1 +1,8 @@
+<div *ngIf="message;" style="border: 1px solid black;">
+  <h1>{{ message.notification.title }}</h1>
+  <h2>{{ message.notification.body }}</h2>
+</div>
+<div *ngIf="!message;" style="border: 1px solid black;">
+  No Message Arrived
+</div>
 <router-outlet></router-outlet>

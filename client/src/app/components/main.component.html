@@ -12,7 +12,9 @@
 </div>
 <div *ngIf="busStops.length > 0">
   <ul *ngFor="let busStop of busStops">
-    <li [routerLink]="['busStop', busStop.BusStopCode]">Description: {{busStop.Description}} - Road name: {{busStop.RoadName}} - Bus stop code: {{busStop.BusStopCode}}</li>
+    <li [routerLink]="['busStop', busStop.BusStopCode]">
+      Description: {{busStop.Description}} - Road name: {{busStop.RoadName}} - Bus stop code: {{busStop.BusStopCode}}
+    </li>
   </ul>
 </div>
 
