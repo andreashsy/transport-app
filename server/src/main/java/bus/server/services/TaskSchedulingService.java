@@ -10,15 +10,19 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 public class TaskSchedulingService {
+    private final Logger logger = Logger.getLogger(TaskSchedulingService.class.getName());
     @Autowired
     private TaskScheduler taskScheduler;
 
     Map<String, ScheduledFuture<?>> jobsMap = new HashMap<>();
 
     public void scheduleATask(String jobId, Runnable tasklet, String cronExpression) {
-        System.out.println("Scheduling task with job id: " + jobId + " and cron expression: " + cronExpression);
+        logger.log(Level.INFO, "Scheduling task with job id: " + jobId + " and cron expression: " + cronExpression);
         ScheduledFuture<?> scheduledTask = taskScheduler.schedule(tasklet, new CronTrigger(cronExpression, TimeZone.getTimeZone(TimeZone.getDefault().getID())));
         jobsMap.put(jobId, scheduledTask);
     }
