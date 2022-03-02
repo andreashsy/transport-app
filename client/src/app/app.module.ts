@@ -12,18 +12,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './components/main.component';
 import { environment } from "../environments/environment";
 import { initializeApp } from "firebase/app";
+import { UserRegistrationComponent } from './components/user-registration.component';
+import { TokenService } from './services/token.service';
 
 initializeApp(environment.firebase);
 const appRoutes: Routes = [
   { path: 'busStop/:busStopId', component: BusstopDetailComponent},
-  { path: '', component: MainComponent}
+  { path: '', component: MainComponent},
+  { path: 'register', component: UserRegistrationComponent}
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     BusstopDetailComponent,
-    MainComponent
+    MainComponent,
+    UserRegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,8 @@ const appRoutes: Routes = [
   providers: [
     BusStopService,
     BusArrivalService,
-    VersionService
+    VersionService,
+    TokenService
    ],
   bootstrap: [AppComponent]
 })

@@ -19,7 +19,7 @@ public class UserRestController {
     @Autowired
     UserService userService;
 
-    //request body should be json {"username": "<testuser>", "password": "<testpassword>", "notificationToken": "<testToken>"}
+    //request body should be json -> {"username": "<testuser>", "password": "<testpassword>", "notificationToken": "<testToken>"}
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody String body) {
         Boolean userAdded = userService.addUser(body);
