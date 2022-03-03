@@ -3,6 +3,14 @@
   <h2>{{ message.notification.body }}</h2>
 </div>
 <div *ngIf="!message;" style="border: 1px solid black;">
-  No Message Arrived
+  No Notification Message
+</div>
+<div *ngIf="user" style="border: 1px solid black;">
+  <p>Logged in as: {{user}}</p>
+  <button [routerLink]="['favourites']">Favourites</button>
+</div>
+<div *ngIf="!user" style="border: 1px solid black;">
+  <button [routerLink]="['register']">Register</button>
+  <button [routerLink]="['login']">Log in</button>
 </div>
 <router-outlet></router-outlet>

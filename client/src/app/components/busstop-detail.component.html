@@ -19,4 +19,7 @@
     </li>
   </ul>
 </div>
+<div *ngIf="user">
+  <button (click)="saveToFavourites()">Save to Favourites</button>
+</div>
 <button [routerLink]="['']">Back</button>

@@ -3,6 +3,7 @@ package bus.server.controllers.secure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import bus.server.services.UserService;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,5 +38,16 @@ public class SecuredBusRestController {
             .build();
 
         return ResponseEntity.ok(jo.toString());
+    }
+
+    @GetMapping(path="/favourite/{username}")
+    public ResponseEntity<String> getFavourites(@PathVariable String username) {
+        logger.log(Level.INFO, "getFavourites hit!");
+        Optional<String> opt = userService.getFavouriteBusStops(username);
+        if (opt.isPresent()) {
+            logger.log(Level.INFO, opt.get());
+            return ResponseEntity.ok(opt.get());
+        }
+        return ResponseEntity.ok("{}");
     }
 }

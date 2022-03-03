@@ -1,10 +1,17 @@
 package bus.server.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bus.server.models.BusStop;
 import bus.server.models.User;
 import bus.server.repositories.UserRepository;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
 
 @Service
 public class UserService {
@@ -26,6 +33,22 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public Optional<String> getFavouriteBusStops(String username) {
+        Optional<List<BusStop>> opt = userRepository.getFavouriteBusStops(username);
+
+        if (opt.isPresent()) {
+            JsonArrayBuilder jab = Json.createArrayBuilder();
+            for (BusStop busStop: opt.get()) {
+                jab.add(busStop.getBusStopCode());
+            }
+            JsonObject jo = Json.createObjectBuilder()
+                .add("favourites", jab)
+                .build();
+            return Optional.of(jo.toString());
+        }
+        return Optional.empty();
     }
 
 

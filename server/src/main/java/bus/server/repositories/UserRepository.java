@@ -3,9 +3,12 @@ package bus.server.repositories;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import bus.server.models.BusStop;
 import bus.server.models.User;
 import static bus.server.repositories.SQL.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -77,4 +80,16 @@ public class UserRepository {
         }
         return count == 1;
     }
+
+    public Optional<List<BusStop>> getFavouriteBusStops(String username) {
+        List<BusStop> busStops = new LinkedList<BusStop>();
+        final SqlRowSet rs = template.queryForRowSet(SQL_GET_FAVOURITE_BUS_STOPS, username);
+		while (rs.next()) {
+            BusStop busStop = new BusStop();
+            busStop.setBusStopCode(rs.getString("bus_stop_id"));
+            busStops.add(busStop);
+			return Optional.of(busStops);
+        }
+        return Optional.empty();
+    } 
 }

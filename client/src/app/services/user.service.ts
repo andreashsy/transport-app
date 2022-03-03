@@ -35,4 +35,16 @@ export class UserService {
       this.http.post<any>(Constants.URL_BASE + "secure/favourite/" + username, busStopCode, httpOptions)
     )
   }
+
+  async getFavouriteBusStops(username: String) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: this.tokenService.jwtToken || ""
+      })
+    };
+
+    return await lastValueFrom(
+      this.http.get<any>(Constants.URL_BASE + "secure/favourite/" + username, httpOptions)
+    )
+  }
 }
