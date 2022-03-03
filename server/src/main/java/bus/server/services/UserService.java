@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bus.server.models.User;
-import bus.server.repositories.BusStopRepository;
+import bus.server.repositories.UserRepository;
 
 @Service
 public class UserService {
     @Autowired
-    BusStopRepository busStopRepository;
+    UserRepository userRepository;
 
     public boolean addUser(String jsonString) {
         User user = User.populateFromJsonString(jsonString);
-        if (!busStopRepository.doesUserExist(user)) {
-            busStopRepository.addUser(user);
+        if (!userRepository.doesUserExist(user)) {
+            userRepository.addUser(user);
             return true;
         }
         return false;

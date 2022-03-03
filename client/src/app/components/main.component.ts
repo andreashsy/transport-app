@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusService, BusStop } from '../models/model';
 import { BusArrivalService } from '../services/busarrival.service';
 import { BusStopService } from '../services/busstop.service';
+import { TokenService } from '../services/token.service';
+import { UserService } from '../services/user.service';
 import { VersionService } from '../services/version.service';
 
 @Component({
@@ -20,12 +22,15 @@ export class MainComponent implements OnInit {
   timeNow: number = Date.now()
   clientVersion: string = "v0.01"
   serverVersion: string = ""
+  user: string = ""
 
   constructor(
     private fb: FormBuilder,
     private busStopSvc: BusStopService,
     private busArrivalSvc: BusArrivalService,
-    private versionSvc: VersionService
+    private versionSvc: VersionService,
+    private tokenSvc: TokenService,
+    private userSvc: UserService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +50,9 @@ export class MainComponent implements OnInit {
       .catch(error => {
         console.error(error)
       })
+    if (this.tokenSvc.jwtToken) {
+      this.user = this.tokenSvc.username
+    }
   }
 
   createSearchForm(): FormGroup {
@@ -95,6 +103,16 @@ export class MainComponent implements OnInit {
       })
       .catch(error => {
         console.error(error)
+      })
+  }
+
+  async saveBusStop() {
+    await this.userSvc.saveFavouriteBusStop(this.tokenSvc.username, this.arrivalForm.value.busStopCode)
+      .then(result => {
+        console.info(result)
+      })
+      .catch(err => {
+        console.error(err)
       })
   }
 

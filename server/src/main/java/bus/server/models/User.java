@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -30,6 +32,14 @@ public class User {
             user = new User();
             logger.log(Level.SEVERE, "IOError while parsing JSON String: " + e);
         }
+        return user;
+    }
+
+    public static User populateFromRowSet(SqlRowSet rs) {
+        User user = new User();
+        user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
+        user.setNotificationToken(rs.getString("notification_token"));
         return user;
     }
 

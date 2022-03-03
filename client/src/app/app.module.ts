@@ -15,12 +15,14 @@ import { initializeApp } from "firebase/app";
 import { UserRegistrationComponent } from './components/user-registration.component';
 import { TokenService } from './services/token.service';
 import { UserService } from './services/user.service';
+import { UserLoginComponent } from './components/user-login.component';
 
 initializeApp(environment.firebase);
 const appRoutes: Routes = [
-  { path: 'busStop/:busStopId', component: BusstopDetailComponent},
-  { path: '', component: MainComponent},
-  { path: 'register', component: UserRegistrationComponent}
+  { path: '', component: MainComponent },
+  { path: 'busStop/:busStopId', component: BusstopDetailComponent },
+  { path: 'register', component: UserRegistrationComponent },
+  { path: 'login', component: UserLoginComponent }
 ]
 
 @NgModule({
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     AppComponent,
     BusstopDetailComponent,
     MainComponent,
-    UserRegistrationComponent
+    UserRegistrationComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,

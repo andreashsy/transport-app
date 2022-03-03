@@ -31,5 +31,5 @@ export interface BusService {
 export interface User {
   username: string
   password: string
-  notificationToken: string
+  notificationToken?: string
 }
