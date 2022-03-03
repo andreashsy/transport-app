@@ -25,33 +25,28 @@ export class UserService {
   }
 
   async saveFavouriteBusStop(username: string, busStopCode: string) {
-    const httpOptions = this.generateHeader()
-
     return await lastValueFrom(
-      this.http.post<any>(Constants.URL_BASE + "secure/favourite/" + username, busStopCode, httpOptions)
+      this.http.post<any>(Constants.URL_BASE + "secure/favourite/" + username, busStopCode, this.generateHeaders())
     )
   }
 
   async getFavouriteBusStops(username: String) {
-    const httpOptions = this.generateHeader()
-
     return await lastValueFrom(
-      this.http.get<any>(Constants.URL_BASE + "secure/favourite/" + username, httpOptions)
+      this.http.get<any>(Constants.URL_BASE + "secure/favourite/" + username, this.generateHeaders())
     )
   }
 
   async deleteFavouriteBusStops(username: string, busStopCode: string) {
-    const httpOptions = this.generateHeader()
-
     return await lastValueFrom(
-      this.http.delete(Constants.URL_BASE + "secure/favourite/" + username + "/" + busStopCode, httpOptions)
+      this.http.delete(Constants.URL_BASE + "secure/favourite/" + username + "/" + busStopCode, this.generateHeaders())
     )
   }
 
-  generateHeader() {
+  generateHeaders() {
     return {
       headers: new HttpHeaders({
-        Authorization: this.tokenService.jwtToken || ""
+        Authorization: this.tokenService.jwtToken || "",
+        Username: this.tokenService.username || ""
       })
     }
   }

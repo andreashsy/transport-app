@@ -34,8 +34,9 @@ public class JwtFilter implements Filter {
 
 		// Look for Authorization: Bearer token
 		String authHeader = httpReq.getHeader("Authorization");
+		String userHeader = httpReq.getHeader("Username");
 		if ((null == authHeader) || 
-					!authSvc.validate(authHeader.trim().substring("Bearer ".length()))) {
+					!authSvc.validate(authHeader.trim().substring("Bearer ".length()), userHeader)) {
 			unauthorized(httpResp);
 			return;
 		}

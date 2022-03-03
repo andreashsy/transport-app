@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bus.server.repositories.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -34,11 +36,13 @@ public class AuthenticateService {
 		}
 	}
 
-	public boolean validate(String token) {
+	public boolean validate(String token, String username) {
+		Jws<Claims> jws;
 		try {
-			Jwts.parserBuilder().setSigningKey(signKey).build()
+			jws = Jwts.parserBuilder().setSigningKey(signKey).build()
 				.parseClaimsJws(token);
-			return true;
+			String jwtUsername = jws.getBody().get("sub", String.class);
+			return jwtUsername.matches(username);
 		} catch (JwtException ex) {
 			ex.printStackTrace();
 		}
@@ -60,4 +64,5 @@ public class AuthenticateService {
 			.add("token", token)
 			.build());
 	}
+	
 }

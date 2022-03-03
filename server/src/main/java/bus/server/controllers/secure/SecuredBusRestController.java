@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import bus.server.services.AuthenticateService;
+import bus.server.services.HttpResponseService;
 import bus.server.services.UserService;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 
 import java.util.Optional;
 import java.util.logging.Level;
@@ -27,6 +28,12 @@ public class SecuredBusRestController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    AuthenticateService authService;
+
+    @Autowired
+    HttpResponseService httpResponseService;
+
     @PostMapping(path="/favourite/{username}")
     public ResponseEntity<String> saveFavourite(
         @RequestBody String body,
@@ -34,15 +41,17 @@ public class SecuredBusRestController {
     ) {
         logger.log(Level.INFO, "username: %s, request body: %s".formatted(username, body));
         boolean favouriteAdded = userService.addFavourite(username, body);
-        JsonObject jo = Json.createObjectBuilder()
-            .add("is favourite added?", favouriteAdded)
-            .build();
-
-        return ResponseEntity.ok(jo.toString());
+   
+        return ResponseEntity.ok(
+            httpResponseService.jsonifyString(
+                "is delete successful?", String.valueOf(favouriteAdded)));
     }
 
     @GetMapping(path="/favourite/{username}")
-    public ResponseEntity<String> getFavourites(@PathVariable String username) {
+    public ResponseEntity<String> getFavourites(
+        @PathVariable String username,
+        @RequestHeader String authorization
+        ) {        
         Optional<String> opt = userService.getFavouriteBusStops(username);
         if (opt.isPresent()) {
             return ResponseEntity.ok(opt.get());
@@ -57,9 +66,8 @@ public class SecuredBusRestController {
     ) {
         boolean isDeleted = userService.deleteFavouriteBusStop(username, busStopCode);
        
-        JsonObject jo = Json.createObjectBuilder()
-            .add("is delete successful?", isDeleted)
-            .build();
-        return ResponseEntity.ok(jo.toString());
+        return ResponseEntity.ok(
+            httpResponseService.jsonifyString(
+                "is delete successful?", String.valueOf(isDeleted)));
     }
 }
