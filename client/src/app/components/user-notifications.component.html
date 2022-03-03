@@ -1,0 +1,33 @@
+<h2>Your Notifications</h2>
+
+<div style="border: 1px solid black;">
+  <h4>Create new notification</h4>
+  <form [formGroup]="addNotificationForm" (ngSubmit)="addNotification()">
+    <table>
+      <tr>
+        <td>Bus Stop Code:</td>
+        <td><input type="text" formControlName="busStopCode"></td>
+      </tr>
+      <tr>
+        <td>Time:</td>
+        <td><input type="time" formControlName="time"></td>
+      </tr>
+      <tr>
+        <td>Days of week:</td>
+        <td>
+          <select formControlName="dayOfWeek">
+            <option value="weekdays">Weekdays</option>
+            <option value="weekends">Weekends</option>
+            <option value="everyday">Everyday</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button>Submit</button></td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<button [routerLink]="['/']">Back</button>

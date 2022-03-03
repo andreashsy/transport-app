@@ -70,4 +70,10 @@ public class SecuredBusRestController {
             httpResponseService.jsonifyString(
                 "is delete successful?", String.valueOf(isDeleted)));
     }
+
+    @PostMapping(path="/notification/{username}")
+    public ResponseEntity<String> addNotifcation(@RequestBody String reqBody, @PathVariable String username) {
+        logger.log(Level.INFO, username + " " + reqBody);
+        return ResponseEntity.ok("{}");
+    }
 }

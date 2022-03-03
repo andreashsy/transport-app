@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { lastValueFrom } from "rxjs";
 import { Constants } from "../constants";
-import { BusStop, User } from "../models/model";
+import { BusStop, NotificationForm, User } from "../models/model";
 import { TokenService } from "./token.service";
 
 @Injectable()
@@ -41,6 +41,16 @@ export class UserService {
       this.http.delete(Constants.URL_BASE + "secure/favourite/" + username + "/" + busStopCode, this.generateHeaders())
     )
   }
+
+  async addNotification(notification: NotificationForm) {
+    return await lastValueFrom(
+      this.http.post<any>(
+        Constants.URL_BASE + "secure/notification/" + notification.username,
+        notification,
+        this.generateHeaders())
+    )
+  }
+
 
   generateHeaders() {
     return {

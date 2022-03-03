@@ -37,7 +37,7 @@ export class UserFavouritesComponent implements OnInit {
         })
       } else {
         alert("Please login first!")
-        this.router.navigate([''])
+        this.router.navigate(['/'])
       }
   }
 

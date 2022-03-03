@@ -41,7 +41,7 @@ export class UserRegistrationComponent implements OnInit {
       .then(result => {
         console.info(result)
         alert(`Registration for ${user.username} successful! Please log in.`)
-        this.router.navigate([''])
+        this.router.navigate(['/'])
       })
       .catch(err => {
         console.error(err)

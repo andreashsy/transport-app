@@ -41,8 +41,8 @@ export class UserLoginComponent implements OnInit {
         console.info(result)
         this.tokenService.setJwtToken(result.token)
         this.tokenService.username = user.username
-        console.info("JWT Token set! ", this.tokenService.jwtToken)
-        this.router.navigate([''])
+        console.info("Logged in, JWT Token set! ", this.tokenService.jwtToken)
+        this.router.navigate(['/'])
       })
       .catch(err =>{
         console.error(err)

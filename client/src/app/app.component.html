@@ -8,6 +8,7 @@
 <div *ngIf="user" style="border: 1px solid black;">
   <p>Logged in as: {{user}}</p>
   <button [routerLink]="['favourites']">Favourites</button>
+  <button [routerLink]="['notifications']">Notifications</button>
 </div>
 <div *ngIf="!user" style="border: 1px solid black;">
   <button [routerLink]="['register']">Register</button>

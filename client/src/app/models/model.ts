@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+
 export interface BusStop {
     BusStopCode: string
     RoadName: string
@@ -32,4 +34,11 @@ export interface User {
   username: string
   password: string
   notificationToken?: string
+}
+
+export interface NotificationForm {
+  busStopCode: string
+  time: Time
+  dayOfWeek: string
+  username: string
 }
