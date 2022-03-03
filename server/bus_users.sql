@@ -16,7 +16,7 @@ create table bus_stops_favourites(
     bus_stop_id char(5) not null,
     username varchar(64) not null,
 
-    primary key (bus_stop_id),
+    primary key (bus_stop_id, username),
     constraint fk_username
         foreign key (username)
         references users(username)

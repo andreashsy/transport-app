@@ -20,5 +20,13 @@ public class UserService {
         return false;
     }
 
+    public boolean addFavourite(String username, String busStopCode) {
+        if (!userRepository.doesFavouriteBusStopExist(username, busStopCode)) {
+            userRepository.addFavourite(username, busStopCode);
+            return true;
+        }
+        return false;
+    }
+
 
 }

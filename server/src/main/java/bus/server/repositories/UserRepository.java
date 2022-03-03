@@ -63,4 +63,18 @@ public class UserRepository {
 
 		return rs.getInt("user_count") > 0;
 	}
+
+    public boolean addFavourite(String username, String busStopCode) {
+        final int favouritesAdded = template.update(SQL_ADD_FAVOURITE_BUS_STOP, busStopCode, username);
+        return favouritesAdded > 0;
+    }
+
+    public boolean doesFavouriteBusStopExist(String username, String busStopCode) {
+        int count = 0;
+        final SqlRowSet rs = template.queryForRowSet(SQL_CHECK_IF_FAVOURITE_BUS_STOP_EXISTS, busStopCode, username);
+        while (rs.next()) {
+            count = rs.getInt("count");
+        }
+        return count == 1;
+    }
 }
