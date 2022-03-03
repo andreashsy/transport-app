@@ -1,3 +1,12 @@
 <h2>Saved Bus Stops</h2>
-<p>{{favStops}}</p>
+<p *ngIf="stops.length === 0">No bus stop saved!</p>
+
+<table *ngFor="let stop of stops; let i = index">
+  <tr>
+    <td>{{stop}}</td>
+    <td>
+      <button (click)="deleteFavourite(i)">X</button>
+    </td>
+  </tr>
+</table>
 <button [routerLink]="['']">Back</button>

@@ -42,10 +42,8 @@ public class SecuredBusRestController {
 
     @GetMapping(path="/favourite/{username}")
     public ResponseEntity<String> getFavourites(@PathVariable String username) {
-        logger.log(Level.INFO, "getFavourites hit!");
         Optional<String> opt = userService.getFavouriteBusStops(username);
         if (opt.isPresent()) {
-            logger.log(Level.INFO, opt.get());
             return ResponseEntity.ok(opt.get());
         }
         return ResponseEntity.ok("{}");

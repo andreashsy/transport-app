@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 export class UserFavouritesComponent implements OnInit {
 
   favStops: string = ""
+  stops: string[] = []
 
   constructor(
     private userService: UserService,
@@ -27,6 +28,7 @@ export class UserFavouritesComponent implements OnInit {
       this.userService.getFavouriteBusStops(this.tokenService.username)
         .then(result => {
           this.favStops = JSON.stringify(result)
+          this.stops = result.favourites
         })
         .catch(err => {
           let error = JSON.stringify(err)
@@ -37,6 +39,10 @@ export class UserFavouritesComponent implements OnInit {
         alert("Please login first!")
         this.router.navigate([''])
       }
+  }
+
+  deleteFavourite(index: number) {
+    console.log("deleting stop number: ", this.stops[index])
   }
 
 

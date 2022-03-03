@@ -88,8 +88,8 @@ public class UserRepository {
             BusStop busStop = new BusStop();
             busStop.setBusStopCode(rs.getString("bus_stop_id"));
             busStops.add(busStop);
-			return Optional.of(busStops);
+			
         }
-        return Optional.empty();
+        return Optional.of(busStops);
     } 
 }
