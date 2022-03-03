@@ -27,3 +27,9 @@ export interface BusService {
     NextBus2?: Bus
     NextBus3?: Bus
 }
+
+export interface User {
+  username: string
+  password: string
+  notificationToken: string
+}

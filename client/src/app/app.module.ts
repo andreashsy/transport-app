@@ -14,6 +14,7 @@ import { environment } from "../environments/environment";
 import { initializeApp } from "firebase/app";
 import { UserRegistrationComponent } from './components/user-registration.component';
 import { TokenService } from './services/token.service';
+import { UserService } from './services/user.service';
 
 initializeApp(environment.firebase);
 const appRoutes: Routes = [
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     BusStopService,
     BusArrivalService,
     VersionService,
-    TokenService
+    TokenService,
+    UserService
    ],
   bootstrap: [AppComponent]
 })
