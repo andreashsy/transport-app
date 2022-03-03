@@ -51,5 +51,9 @@ public class UserService {
         return Optional.empty();
     }
 
+    public boolean deleteFavouriteBusStop(String username, String busStopCode) {
+        return userRepository.deleteFavouriteBusStop(username, busStopCode);
+    }
+
 
 }

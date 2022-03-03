@@ -3,6 +3,7 @@ package bus.server.controllers.secure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +48,18 @@ public class SecuredBusRestController {
             return ResponseEntity.ok(opt.get());
         }
         return ResponseEntity.ok("{}");
+    }
+
+    @DeleteMapping(path="/favourite/{username}/{busStopCode}")
+    public ResponseEntity<String> deleteFavourite(
+        @PathVariable String username,
+        @PathVariable String busStopCode
+    ) {
+        boolean isDeleted = userService.deleteFavouriteBusStop(username, busStopCode);
+       
+        JsonObject jo = Json.createObjectBuilder()
+            .add("is delete successful?", isDeleted)
+            .build();
+        return ResponseEntity.ok(jo.toString());
     }
 }

@@ -92,4 +92,13 @@ public class UserRepository {
         }
         return Optional.of(busStops);
     } 
+
+    public boolean deleteFavouriteBusStop(String username, String busStopCode) {
+        final int busStopsDeleted = template.update(
+            SQL_DELETE_FAVOURITE_BUS_STOP, 
+            busStopCode, 
+            username);
+
+        return busStopsDeleted > 0;
+    }
 }

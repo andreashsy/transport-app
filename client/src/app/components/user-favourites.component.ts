@@ -41,8 +41,16 @@ export class UserFavouritesComponent implements OnInit {
       }
   }
 
-  deleteFavourite(index: number) {
+  async deleteFavourite(index: number) {
     console.log("deleting stop number: ", this.stops[index])
+    await this.userService.deleteFavouriteBusStops(this.tokenService.username, this.stops[index])
+      .then(result => {
+        console.info(result)
+        this.stops.splice(index, 1)
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
 
