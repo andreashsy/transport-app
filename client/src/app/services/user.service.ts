@@ -51,6 +51,17 @@ export class UserService {
     )
   }
 
+  async getNotifications(username: String) {
+    return await lastValueFrom(
+      this.http.get<any>(Constants.URL_BASE + "secure/notification", this.generateHeaders())
+    )
+  }
+
+  async deleteNotification(username: string, busStopCode: string, cronString: string) {
+    return await lastValueFrom(
+      this.http.delete(Constants.URL_BASE + "secure/notification/" + busStopCode + "/" + cronString, this.generateHeaders())
+    )
+  }
 
   generateHeaders() {
     return {

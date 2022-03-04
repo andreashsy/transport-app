@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bus.server.models.BusStop;
+import bus.server.models.Notification;
 import bus.server.models.User;
 import bus.server.repositories.UserRepository;
 import jakarta.json.Json;
@@ -53,6 +54,36 @@ public class UserService {
 
     public boolean deleteFavouriteBusStop(String username, String busStopCode) {
         return userRepository.deleteFavouriteBusStop(username, busStopCode);
+    }
+
+    public boolean addNotifcation(Notification notification) {
+        if (!userRepository.doesNotificationExist(notification)) {
+            return userRepository.addNotification(notification);
+        }
+        return false;
+    }
+
+    public Optional<String> getNotifications(String username) {
+        Optional<List<Notification>> opt = userRepository.getNotifcations(username);
+        if (opt.isPresent()) {
+            JsonArrayBuilder jab = Json.createArrayBuilder();
+            for (Notification notification: opt.get()) {
+                JsonObject joNotification = Json.createObjectBuilder()
+                    .add("busStopCode", notification.getBusStopCode())
+                    .add("cronString", notification.getCronExpression())
+                    .build();
+                jab.add(joNotification);
+            }
+            JsonObject jo = Json.createObjectBuilder()
+                .add("notifications", jab)
+                .build();
+            return Optional.of(jo.toString());
+        }
+        return Optional.empty();
+    }
+
+    public boolean deleteNotification(Notification notification) {
+        return userRepository.deleteNotification(notification);
     }
 
 

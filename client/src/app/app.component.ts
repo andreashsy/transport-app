@@ -57,4 +57,10 @@ export class AppComponent implements OnInit {
       this.message=payload;
     });
   }
+
+  logout() {
+    this.tokenService.clearJwtTokenAndUsername()
+    this.user = ""
+    this.router.navigate(['/'])
+  }
 }

@@ -4,18 +4,23 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bus.server.models.BusStop;
+import bus.server.models.Notification;
 import bus.server.models.User;
 import static bus.server.repositories.SQL.*;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 @Repository
 public class UserRepository {
+    private static final Logger logger = Logger.getLogger(UserRepository.class.getName());
+
     @Autowired
     JdbcTemplate template;
 
@@ -49,7 +54,7 @@ public class UserRepository {
         while (rs.next()) {
             count = rs.getInt("count");
         }
-        return count == 1;
+        return count > 0;
     }
 
     public Optional<User> findUserByName(String username) {
@@ -78,7 +83,7 @@ public class UserRepository {
         while (rs.next()) {
             count = rs.getInt("count");
         }
-        return count == 1;
+        return count > 0;
     }
 
     public Optional<List<BusStop>> getFavouriteBusStops(String username) {
@@ -100,5 +105,47 @@ public class UserRepository {
             username);
 
         return busStopsDeleted > 0;
+    }
+
+    public boolean doesNotificationExist(Notification notification) {
+        int count = 0;
+        final SqlRowSet rs = template.queryForRowSet(
+            SQL_CHECK_IF_NOTIFICATION_EXISTS, 
+            notification.getUsername(), 
+            notification.getCronExpression(), 
+            notification.getBusStopCode());
+        while (rs.next()) {
+            count = rs.getInt("count");
+        }
+        return count > 0;
+    }
+
+    public boolean addNotification(Notification notification) {
+        final int notificationsAdded = template.update(
+            SQL_ADD_NOTIFICATION, 
+            notification.getTaskId(), 
+            notification.getUsername(), 
+            notification.getCronExpression(), 
+            notification.getBusStopCode());
+        return notificationsAdded > 0;
+    }
+
+    public Optional<List<Notification>> getNotifcations(String username) {
+        List<Notification> notifications = new LinkedList<Notification>();
+        final SqlRowSet rs = template.queryForRowSet(SQL_GET_NOTIFICATIONS, username);
+		while (rs.next()) {
+            Notification notification = Notification.populateFromRowSet(rs);
+            notifications.add(notification);
+        }
+        return Optional.of(notifications);
+    }
+
+    public boolean deleteNotification(Notification notification) {
+        final int notificationsDeleted = template.update(
+            SQL_DELETE_NOTIFICATION, 
+            notification.getUsername(),
+            notification.getCronExpression(),
+            notification.getBusStopCode());
+        return notificationsDeleted > 0;
     }
 }

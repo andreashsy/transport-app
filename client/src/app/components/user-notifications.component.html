@@ -1,5 +1,13 @@
 <h2>Your Notifications</h2>
-
+<div style="border: 1px solid black;">
+  <p *ngIf="!notifications || notifications.length == 0">No notifications</p>
+  <table>
+    <tr *ngFor="let notification of notifications; let i = index">
+      <td>{{notification.busStopCode}} | {{notification.cronString}}</td>
+      <td><button (click)="deleteNotification(i)">X</button></td>
+    </tr>
+  </table>
+</div>
 <div style="border: 1px solid black;">
   <h4>Create new notification</h4>
   <form [formGroup]="addNotificationForm" (ngSubmit)="addNotification()">
@@ -24,7 +32,7 @@
       </tr>
       <tr>
         <td></td>
-        <td><button>Submit</button></td>
+        <td><button [disabled]="addNotificationForm.invalid">Submit</button></td>
       </tr>
     </table>
   </form>

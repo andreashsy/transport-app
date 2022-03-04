@@ -9,4 +9,9 @@ export class TokenService {
   setJwtToken(jwtToken: string) {
     this.jwtToken = "Bearer " + jwtToken
   }
+
+  clearJwtTokenAndUsername() {
+    this.username = ""
+    this.jwtToken = ""
+  }
 }

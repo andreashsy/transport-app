@@ -41,4 +41,5 @@ export interface NotificationForm {
   time: Time
   dayOfWeek: string
   username: string
+  cronString: string
 }
