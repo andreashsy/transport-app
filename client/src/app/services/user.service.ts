@@ -26,26 +26,26 @@ export class UserService {
 
   async saveFavouriteBusStop(username: string, busStopCode: string) {
     return await lastValueFrom(
-      this.http.post<any>(Constants.URL_BASE + "secure/favourite/" + username, busStopCode, this.generateHeaders())
+      this.http.post<any>(Constants.URL_BASE + "secure/favourite", busStopCode, this.generateHeaders())
     )
   }
 
   async getFavouriteBusStops(username: String) {
     return await lastValueFrom(
-      this.http.get<any>(Constants.URL_BASE + "secure/favourite/" + username, this.generateHeaders())
+      this.http.get<any>(Constants.URL_BASE + "secure/favourite", this.generateHeaders())
     )
   }
 
   async deleteFavouriteBusStops(username: string, busStopCode: string) {
     return await lastValueFrom(
-      this.http.delete(Constants.URL_BASE + "secure/favourite/" + username + "/" + busStopCode, this.generateHeaders())
+      this.http.delete(Constants.URL_BASE + "secure/favourite/" + busStopCode, this.generateHeaders())
     )
   }
 
   async addNotification(notification: NotificationForm) {
     return await lastValueFrom(
       this.http.post<any>(
-        Constants.URL_BASE + "secure/notification/" + notification.username,
+        Constants.URL_BASE + "secure/notification",
         notification,
         this.generateHeaders())
     )

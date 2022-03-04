@@ -34,10 +34,10 @@ public class SecuredBusRestController {
     @Autowired
     HttpResponseService httpResponseService;
 
-    @PostMapping(path="/favourite/{username}")
+    @PostMapping(path="/favourite")
     public ResponseEntity<String> saveFavourite(
         @RequestBody String body,
-        @PathVariable String username
+        @RequestHeader String username
     ) {
         logger.log(Level.INFO, "username: %s, request body: %s".formatted(username, body));
         boolean favouriteAdded = userService.addFavourite(username, body);
@@ -47,9 +47,9 @@ public class SecuredBusRestController {
                 "is delete successful?", String.valueOf(favouriteAdded)));
     }
 
-    @GetMapping(path="/favourite/{username}")
+    @GetMapping(path="/favourite")
     public ResponseEntity<String> getFavourites(
-        @PathVariable String username,
+        @RequestHeader String username,
         @RequestHeader String authorization
         ) {        
         Optional<String> opt = userService.getFavouriteBusStops(username);
@@ -59,9 +59,9 @@ public class SecuredBusRestController {
         return ResponseEntity.ok("{}");
     }
 
-    @DeleteMapping(path="/favourite/{username}/{busStopCode}")
+    @DeleteMapping(path="/favourite/{busStopCode}")
     public ResponseEntity<String> deleteFavourite(
-        @PathVariable String username,
+        @RequestHeader String username,
         @PathVariable String busStopCode
     ) {
         boolean isDeleted = userService.deleteFavouriteBusStop(username, busStopCode);
@@ -71,8 +71,11 @@ public class SecuredBusRestController {
                 "is delete successful?", String.valueOf(isDeleted)));
     }
 
-    @PostMapping(path="/notification/{username}")
-    public ResponseEntity<String> addNotifcation(@RequestBody String reqBody, @PathVariable String username) {
+    @PostMapping(path="/notification")
+    public ResponseEntity<String> addNotifcation(
+        @RequestBody String reqBody, 
+        @RequestHeader String username
+        ) {
         logger.log(Level.INFO, username + " " + reqBody);
         return ResponseEntity.ok("{}");
     }
