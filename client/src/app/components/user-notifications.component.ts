@@ -38,7 +38,7 @@ export class UserNotificationsComponent implements OnInit {
   async addNotification() {
     let notification = this.addNotificationForm.value as NotificationForm
     notification.username = this.tokenService.username || ""
-    console.info("Sending notification...", notification)
+    console.info("Adding notification...", notification)
     await this.userService.addNotification(notification)
       .then(result => {
         this.initialiseNotifications()

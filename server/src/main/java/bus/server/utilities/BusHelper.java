@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,7 +26,6 @@ import jakarta.json.JsonValue;
 import static bus.server.Constants.*;
 
 
-@Service
 public class BusHelper {
     private final Logger logger = Logger.getLogger(BusHelper.class.getName());
     private String accountKey;
