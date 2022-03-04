@@ -1,12 +1,13 @@
 package bus.server.models;
 
-import org.springframework.beans.factory.annotation.Configurable;
-
 import bus.server.utilities.BusHelper;
 import bus.server.utilities.NotificationSender;
 
-@Configurable
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class NotificationTask implements Runnable {
+    private static final Logger logger = Logger.getLogger(NotificationTask.class.getName());
     Notification notification;
     BusHelper busHelper = new BusHelper();
 
@@ -19,7 +20,8 @@ public class NotificationTask implements Runnable {
         notification.setMessageTitle("Bus Stop data for id: " + notification.getBusStopCode());
         notification.setMessageBody(busHelper.getBusStopById(notification.getBusStopCode()));
         NotificationSender notificationSender = new NotificationSender(notification);
-        notificationSender.sendNotification();
+        String resp = notificationSender.sendNotification();
+        logger.log(Level.INFO, "Notification sent, response from FCM server is: " + resp);
     }
 
 }

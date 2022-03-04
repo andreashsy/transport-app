@@ -26,7 +26,6 @@ public class TelegramBotController implements TelegramMvcController{
     public String getToken() {
         return token;
     }
-
     @BotRequest(value = "/hello", type = {MessageType.CALLBACK_QUERY, MessageType.MESSAGE})
     public BaseRequest hello(User user, Chat chat) {
         return new SendMessage(chat.id(), "Hello, " + user.firstName() + "!!!");
