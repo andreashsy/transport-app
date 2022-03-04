@@ -26,19 +26,19 @@ export class UserService {
 
   async saveFavouriteBusStop(username: string, busStopCode: string) {
     return await lastValueFrom(
-      this.http.post<any>(Constants.URL_BASE + "secure/favourite", busStopCode, this.generateHeaders())
+      this.http.post<any>(Constants.URL_BASE + "secure/favourite", busStopCode, this.generateAuthenticationHeaders())
     )
   }
 
   async getFavouriteBusStops(username: String) {
     return await lastValueFrom(
-      this.http.get<any>(Constants.URL_BASE + "secure/favourite", this.generateHeaders())
+      this.http.get<any>(Constants.URL_BASE + "secure/favourite", this.generateAuthenticationHeaders())
     )
   }
 
   async deleteFavouriteBusStops(username: string, busStopCode: string) {
     return await lastValueFrom(
-      this.http.delete(Constants.URL_BASE + "secure/favourite/" + busStopCode, this.generateHeaders())
+      this.http.delete(Constants.URL_BASE + "secure/favourite/" + busStopCode, this.generateAuthenticationHeaders())
     )
   }
 
@@ -47,23 +47,29 @@ export class UserService {
       this.http.post<any>(
         Constants.URL_BASE + "secure/notification",
         notification,
-        this.generateHeaders())
+        this.generateAuthenticationHeaders())
     )
   }
 
   async getNotifications(username: String) {
     return await lastValueFrom(
-      this.http.get<any>(Constants.URL_BASE + "secure/notification", this.generateHeaders())
+      this.http.get<any>(Constants.URL_BASE + "secure/notification", this.generateAuthenticationHeaders())
     )
   }
 
   async deleteNotification(username: string, busStopCode: string, cronString: string) {
     return await lastValueFrom(
-      this.http.delete(Constants.URL_BASE + "secure/notification/" + busStopCode + "/" + cronString, this.generateHeaders())
+      this.http.delete(Constants.URL_BASE + "secure/notification/" + busStopCode + "/" + cronString, this.generateAuthenticationHeaders())
     )
   }
 
-  generateHeaders() {
+  async updateToken(user: User) {
+    return await lastValueFrom(
+      this.http.patch<any>(Constants.URL_BASE + "secure/firebasetoken", user, this.generateAuthenticationHeaders())
+    )
+  }
+
+  generateAuthenticationHeaders() {
     return {
       headers: new HttpHeaders({
         Authorization: this.tokenService.jwtToken || "",

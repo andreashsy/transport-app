@@ -46,6 +46,9 @@ export class UserLoginComponent implements OnInit {
       })
       .catch(err =>{
         console.error(err)
+        this.loginForm.reset('')
+        alert("Login failed")
+
       })
   }
 

@@ -28,6 +28,11 @@ public class UserService {
         return false;
     }
 
+    public boolean updateToken(String jsonString) {
+        User user = User.populateFromJsonString(jsonString);
+        return userRepository.updateToken(user);
+    }
+
     public boolean addFavourite(String username, String busStopCode) {
         if (!userRepository.doesFavouriteBusStopExist(username, busStopCode)) {
             userRepository.addFavourite(username, busStopCode);
@@ -68,9 +73,12 @@ public class UserService {
         if (opt.isPresent()) {
             JsonArrayBuilder jab = Json.createArrayBuilder();
             for (Notification notification: opt.get()) {
+                notification.generateTimeAndDay();
                 JsonObject joNotification = Json.createObjectBuilder()
                     .add("busStopCode", notification.getBusStopCode())
+                    .add("dayOfWeek", notification.getDayOfWeek())
                     .add("cronString", notification.getCronExpression())
+                    .add("time", notification.getTime())
                     .build();
                 jab.add(joNotification);
             }
@@ -86,5 +94,20 @@ public class UserService {
         return userRepository.deleteNotification(notification);
     }
 
+    public String getNotificationId(Notification notification) {
+        Optional<String> opt = userRepository.getNotificationId(notification);
+        if (opt.isPresent()) {
+            return opt.get();
+        }
+        return "";
+    }
+
+    public String getFirebaseToken(String username) {
+        Optional<String> opt = userRepository.getFirebaseToken(username);
+        if (opt.isPresent()) {
+            return opt.get();
+        }
+        return "";
+    }
 
 }

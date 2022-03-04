@@ -42,7 +42,7 @@ public class UserRepository {
 
     public boolean updateToken(User user) {
         final int usersChanged = template.update(
-            SQL_UPDATE_TOKEN, 
+            SQL_UPDATE_FIREBASE_TOKEN, 
             user.getNotificationToken(),
             user.getUsername());
         return usersChanged > 0;
@@ -147,5 +147,27 @@ public class UserRepository {
             notification.getCronExpression(),
             notification.getBusStopCode());
         return notificationsDeleted > 0;
+    }
+
+    public Optional<String> getNotificationId(Notification notification) {
+        String id = "";
+        final SqlRowSet rs = template.queryForRowSet(
+            SQL_GET_NOTIFICATION_ID, 
+            notification.getUsername(), 
+            notification.getCronExpression(), 
+            notification.getBusStopCode());
+        while (rs.next()) {
+            id = rs.getString("task_id");
+        }
+        return Optional.of(id);
+    }
+
+    public Optional<String> getFirebaseToken(String username) {
+        String token = "";
+        final SqlRowSet rs = template.queryForRowSet(SQL_GET_FIREBASE_TOKEN, username);
+        while (rs.next()) {
+            token = rs.getString("token");
+        }
+        return Optional.of(token);
     }
 }

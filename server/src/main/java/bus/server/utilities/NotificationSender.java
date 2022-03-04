@@ -1,10 +1,9 @@
-package bus.server.services;
+package bus.server.utilities;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -15,22 +14,23 @@ import bus.server.models.Notification;
 
 import static bus.server.Constants.*;
 
-@Service
-public class SendNotificationService {
-    private final Logger logger = Logger.getLogger(SendNotificationService.class.getName());
+public class NotificationSender {
+    private final Logger logger = Logger.getLogger(NotificationSender.class.getName());
     private String headerKey;
+    private Notification notification;
 
-    public SendNotificationService() {
+    public NotificationSender(Notification notification) {
+        this.notification = notification;
         if ((KEY_FIREBASE!= null) && (KEY_FIREBASE.trim().length() > 0)) {
             this.headerKey = KEY_FIREBASE;
             logger.log(Level.INFO, ">>> FIREBASE KEY SET!");
         } else {
             this.headerKey = "API KEY NOT FOUND";
-            logger.log(Level.INFO, ">>> ERROR!! FIREBASE KEY NOT FOUND!");
+            logger.log(Level.WARNING, ">>> ERROR!! FIREBASE KEY NOT FOUND!");
         }
     }
     
-    public String sendNotification(Notification notification) {
+    public String sendNotification() {
         String url = UriComponentsBuilder
         .fromUriString(URL_FIREBASE)
         .toUriString();

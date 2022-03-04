@@ -1,4 +1,4 @@
-package bus.server.services;
+package bus.server.utilities;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -28,11 +28,11 @@ import static bus.server.Constants.*;
 
 
 @Service
-public class BusService {
-    private final Logger logger = Logger.getLogger(BusService.class.getName());
+public class BusHelper {
+    private final Logger logger = Logger.getLogger(BusHelper.class.getName());
     private String accountKey;
 
-    public BusService() {
+    public BusHelper() {
         if ((KEY_LTA != null) && (KEY_LTA.trim().length() > 0)) {
             this.accountKey = KEY_LTA;
             logger.log(Level.INFO, ">>> LTA KEY SET!");

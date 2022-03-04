@@ -24,7 +24,7 @@ export class UserRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.newUserForm = this.createForm();
-    this.token = this.tokenService.token
+    this.token = this.tokenService.firebaseToken
   }
 
   createForm(): FormGroup {

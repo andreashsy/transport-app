@@ -1,13 +1,11 @@
-import { AfterContentInit, Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BusService, BusStop } from './models/model';
-import { BusArrivalService } from './services/busarrival.service';
-import { BusStopService } from './services/busstop.service';
-import { VersionService } from './services/version.service';
+import { Component, OnInit } from '@angular/core';
 import { environment } from "../environments/environment";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { TokenService } from './services/token.service';
 import { NavigationStart, Router } from '@angular/router';
+import { UserFavouritesComponent } from './components/user-favourites.component';
+import { User } from './models/model';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +18,7 @@ export class AppComponent implements OnInit {
   user: string = "";
   constructor(
     private tokenService: TokenService,
+    private userService: UserService,
     private router: Router
   ) {}
   ngOnInit(): void {
@@ -42,7 +41,7 @@ export class AppComponent implements OnInit {
        (currentToken) => {
          if (currentToken) {
            console.log("Firebase notification token received: ", currentToken);
-           this.tokenService.token=currentToken;
+           this.tokenService.firebaseToken=currentToken;
          } else {
            console.log('No registration token available. Request permission to generate one.');
          }
@@ -55,6 +54,7 @@ export class AppComponent implements OnInit {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload);
       this.message=payload;
+      alert(JSON.stringify(payload))
     });
   }
 
@@ -62,5 +62,21 @@ export class AppComponent implements OnInit {
     this.tokenService.clearJwtTokenAndUsername()
     this.user = ""
     this.router.navigate(['/'])
+  }
+
+  async updateToken() {
+    let userObj = {} as User
+    userObj.notificationToken = this.tokenService.firebaseToken
+    userObj.username = this.tokenService.username
+    userObj.password = ""
+    await this.userService.updateToken(userObj)
+      .then(result => {
+        console.info(result)
+        alert("Token successfully updated!")
+      })
+      .catch(err => {
+        console.error(JSON.stringify(err))
+      })
+
   }
 }

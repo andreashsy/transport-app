@@ -14,9 +14,11 @@ import java.util.logging.Logger;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public class Notification {
+    private String dayOfWeek;
+    private String time;
     private String cronExpression;
     private String username;
-    private String clientToken;
+    private String firebaseToken;
     private String busStopCode;
     private String messageBody;
     private String messageTitle;
@@ -33,7 +35,7 @@ public class Notification {
              Json.createObjectBuilder()
                 .add("title", messageTitle)
                 .add("body", messageBody))
-            .add("to", clientToken)
+            .add("to", firebaseToken)
             .build();
         logger.log(Level.INFO, "Notification Generated! " + jo.toString());
         return jo;
@@ -70,7 +72,7 @@ public class Notification {
     private static String parseTimeToCron(String time) {
         String minutes = time.split(":")[1];
         String hour = time.split(":")[0];
-        return minutes + " " + hour;
+        return "1 " + minutes + " " + hour;
     }
 
     private static String parseDayOfWeektoCron(String dayOfWeek) {
@@ -125,6 +127,41 @@ public class Notification {
         return notification;
     }
 
+    public void generateTimeAndDay() {
+        String cronDay = this.cronExpression.split(" ")[5];
+        switch (cronDay) {
+            case "1-5":
+                this.dayOfWeek = "weekdays";
+                break;
+            case "6,0":
+                this.dayOfWeek = "weekends";
+                break;
+            case "*":
+                this.dayOfWeek = "everday";
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid cron expression");
+        }
+
+        this.time = this.cronExpression.split(" ")[2] + ":" + this.cronExpression.split(" ")[1];
+    }
+
+    public String getDayOfWeek() {
+        return this.dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public String getCronExpression() {
         return this.cronExpression;
     }
@@ -141,12 +178,12 @@ public class Notification {
         this.username = username;
     }
 
-    public String getClientToken() {
-        return this.clientToken;
+    public String getFirebaseToken() {
+        return this.firebaseToken;
     }
 
-    public void setClientToken(String clientToken) {
-        this.clientToken = clientToken;
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
     }
 
     public String getMessageBody() {

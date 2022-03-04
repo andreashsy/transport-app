@@ -1,12 +1,9 @@
-package bus.server.services;
-
-import org.springframework.stereotype.Service;
+package bus.server.utilities;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
-@Service
-public class HttpResponseService {
+public class HttpResponseHelper {
     
     public String jsonifyString(String title, String body) {
         JsonObject jo = Json.createObjectBuilder()

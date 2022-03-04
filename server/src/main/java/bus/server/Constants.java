@@ -7,5 +7,5 @@ public class Constants {
     public static final String URL_ALL_BUS_STOPS = "http://datamall2.mytransport.sg/ltaodataservice/BusStops";
     public static final String URL_FIREBASE = "https://fcm.googleapis.com/fcm/send";
     public static final String DEMO_CLIENT_TOKEN = "eDcDqksJwSAaGioVB-h8hZ:APA91bEg7OJMF7CTmWJr1tQQ2c0Xchld9fb0HoMmTitw_1WRHrWSn2BdE7djO6c76CX3lqwaUHay2dKQ9SQs24vt2rY5MKbDmGQs48DWE-SN9S6CHiJ1DZKZdfw5G2uxXDZoiB_Icidk";
-    
+    public static final String APP_VERSION = "v0.01";
 }

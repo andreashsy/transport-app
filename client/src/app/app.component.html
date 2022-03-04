@@ -1,18 +1,15 @@
-<div *ngIf="message;" style="border: 1px solid black;">
-  <h1>{{ message.notification.title }}</h1>
-  <h2>{{ message.notification.body }}</h2>
-</div>
-<div *ngIf="!message;" style="border: 1px solid black;">
-  No Notification Message
-</div>
+
 <div *ngIf="user" style="border: 1px solid black;">
   <p>Logged in as: {{user}}</p>
   <button [routerLink]="['favourites']">Favourites</button>
   <button [routerLink]="['notifications']">Notifications</button>
   <button (click)="logout()">Log out</button>
+  <button (click)="updateToken()">Update Token</button>
 </div>
 <div *ngIf="!user" style="border: 1px solid black;">
   <button [routerLink]="['register']">Register</button>
   <button [routerLink]="['login']">Log in</button>
 </div>
 <router-outlet></router-outlet>
+<p>Contains information from Bus Stops and Bus Arrival from LTA which is made available under the terms of the <a href="https://datamall.lta.gov.sg/content/datamall/en/SingaporeOpenDataLicence.html">Singapore Open Data Licence version 1.0</a></p>
+

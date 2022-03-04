@@ -66,7 +66,10 @@ export class UserNotificationsComponent implements OnInit {
 
   async deleteNotification(index: number) {
     console.log("deleting notification index: ", index)
-    await this.userService.deleteNotification(this.tokenService.username, this.notifications[index].busStopCode, this.notifications[index].cronString)
+    await this.userService.deleteNotification(
+      this.tokenService.username,
+      this.notifications[index].busStopCode,
+      this.notifications[index].cronString)
       .then(result => {
         console.info(result)
         this.notifications.splice(index, 1)

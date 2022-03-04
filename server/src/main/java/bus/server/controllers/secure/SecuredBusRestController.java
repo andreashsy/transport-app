@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import bus.server.models.Notification;
+import bus.server.models.NotificationTask;
 import bus.server.services.AuthenticateService;
-import bus.server.services.HttpResponseService;
+import bus.server.services.TaskSchedulingService;
 import bus.server.services.UserService;
+import bus.server.utilities.HttpResponseHelper;
 
 import java.util.Optional;
 import java.util.logging.Level;
@@ -25,6 +28,7 @@ import java.util.logging.Logger;
 @RequestMapping(path="/secure", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SecuredBusRestController {
     private final Logger logger = Logger.getLogger(SecuredBusRestController.class.getName());
+    HttpResponseHelper httpResponseHelper = new HttpResponseHelper();
 
     @Autowired
     UserService userService;
@@ -33,7 +37,7 @@ public class SecuredBusRestController {
     AuthenticateService authService;
 
     @Autowired
-    HttpResponseService httpResponseService;
+    TaskSchedulingService taskSchedulingService;
 
     @PostMapping(path="/favourite")
     public ResponseEntity<String> saveFavourite(
@@ -44,8 +48,18 @@ public class SecuredBusRestController {
         boolean favouriteAdded = userService.addFavourite(username, body);
    
         return ResponseEntity.ok(
-            httpResponseService.jsonifyString(
+            httpResponseHelper.jsonifyString(
                 "is delete successful?", String.valueOf(favouriteAdded)));
+    }
+
+    @PatchMapping(path="/firebasetoken")
+    public ResponseEntity<String> updateFirebaseToken(
+        @RequestBody String body
+    ) {
+        boolean isTokenUpdated = userService.updateToken(body);
+        return ResponseEntity.ok(
+            httpResponseHelper.jsonifyString(
+                "is update successful?", String.valueOf(isTokenUpdated)));
     }
 
     @GetMapping(path="/favourite")
@@ -67,7 +81,7 @@ public class SecuredBusRestController {
         boolean isDeleted = userService.deleteFavouriteBusStop(username, busStopCode);
        
         return ResponseEntity.ok(
-            httpResponseService.jsonifyString(
+            httpResponseHelper.jsonifyString(
                 "is delete successful?", String.valueOf(isDeleted)));
     }
 
@@ -76,12 +90,15 @@ public class SecuredBusRestController {
         @RequestBody String reqBody, 
         @RequestHeader String username
         ) {
-        logger.log(Level.INFO, username + " " + reqBody);
         Notification notification = Notification.populateFromClient(reqBody);
-        
+        notification.setFirebaseToken(userService.getFirebaseToken(username));
+        NotificationTask notificationTask = new NotificationTask(notification);
+
+        taskSchedulingService.scheduleATask(notification.getTaskId(), notificationTask, notification.getCronExpression());
+
         boolean isAdded = userService.addNotifcation(notification);
         return ResponseEntity.ok(
-            httpResponseService.jsonifyString(
+            httpResponseHelper.jsonifyString(
                 "is add successful?", String.valueOf(isAdded)));
     }
 
@@ -106,10 +123,14 @@ public class SecuredBusRestController {
         notification.setUsername(username);
         notification.setBusStopCode(busStopCode);
         notification.setCronExpression(cronString);
+        String idToBeDeleted = userService.getNotificationId(notification);
+        notification.setTaskId(idToBeDeleted);
+
+        taskSchedulingService.removeScheduledTask(notification.getTaskId());
         boolean isDeleted = userService.deleteNotification(notification);
        
         return ResponseEntity.ok(
-            httpResponseService.jsonifyString(
+            httpResponseHelper.jsonifyString(
                 "is delete successful?", String.valueOf(isDeleted)));
     }
 }
