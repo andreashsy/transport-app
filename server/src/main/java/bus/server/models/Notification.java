@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -179,9 +180,11 @@ public class Notification {
                 nextBus2.setLoad(nextBus2Obj.getString("Load"));
                 nextBus3.setLoad(nextBus3Obj.getString("Load"));
 
-                LocalDateTime estArr = LocalDateTime.parse(nextBusObj.getString("EstimatedArrival"));
-                LocalDateTime estArr2 = LocalDateTime.parse(nextBus2Obj.getString("EstimatedArrival"));
-                LocalDateTime estArr3 = LocalDateTime.parse(nextBus3Obj.getString("EstimatedArrival"));
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'+08:00'");
+
+                LocalDateTime estArr = LocalDateTime.parse(nextBusObj.getString("EstimatedArrival"), format);
+                LocalDateTime estArr2 = LocalDateTime.parse(nextBus2Obj.getString("EstimatedArrival"), format);
+                LocalDateTime estArr3 = LocalDateTime.parse(nextBus3Obj.getString("EstimatedArrival"), format);
 
                 nextBus.setEstimatedArrival(estArr);
                 nextBus2.setEstimatedArrival(estArr2);
