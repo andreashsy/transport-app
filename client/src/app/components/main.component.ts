@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
   numStops!: number
   searchMsg: string = ""
   timeNow: number = Date.now()
-  clientVersion: string = "v0.01"
+  clientVersion: string = "v0.10"
   serverVersion: string = ""
   user: string = ""
 

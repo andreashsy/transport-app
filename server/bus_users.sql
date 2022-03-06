@@ -8,6 +8,7 @@ create table users(
     username varchar(64) not null,
     password varchar(512) not null,
     notification_token varchar(512),
+    telegram_username varchar(64),
 
     primary key (username)
 );

@@ -1,12 +1,17 @@
 package bus.server.models;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -144,6 +149,66 @@ public class Notification {
         }
 
         this.time = this.cronExpression.split(" ")[2] + ":" + this.cronExpression.split(" ")[1];
+    }
+
+    public static String parseJsonNotification(String jsonString) {
+        String messageBody = "";
+        List<BusService> busServices = new LinkedList<BusService>();
+        try (InputStream is = new ByteArrayInputStream(jsonString.getBytes())) {
+            JsonReader reader = Json.createReader(is);
+            JsonObject data = reader.readObject();
+
+            
+            JsonArray services = data.getJsonArray("Services");
+
+            for (JsonValue jv:services) {
+                JsonObject busServiceObj = jv.asJsonObject();
+                BusService busService = new BusService();
+                String serviceNumber = busServiceObj.getString("ServiceNo");
+                busService.setServiceNumber(serviceNumber);
+
+                JsonObject nextBusObj = busServiceObj.getJsonObject("NextBus");
+                JsonObject nextBus2Obj = busServiceObj.getJsonObject("NextBus2");
+                JsonObject nextBus3Obj = busServiceObj.getJsonObject("NextBus3");
+
+                Bus nextBus = new Bus();
+                Bus nextBus2 = new Bus();
+                Bus nextBus3 = new Bus();
+
+                nextBus.setLoad(nextBusObj.getString("Load"));
+                nextBus2.setLoad(nextBus2Obj.getString("Load"));
+                nextBus3.setLoad(nextBus3Obj.getString("Load"));
+
+                LocalDateTime estArr = LocalDateTime.parse(nextBusObj.getString("EstimatedArrival"));
+                LocalDateTime estArr2 = LocalDateTime.parse(nextBus2Obj.getString("EstimatedArrival"));
+                LocalDateTime estArr3 = LocalDateTime.parse(nextBus3Obj.getString("EstimatedArrival"));
+
+                nextBus.setEstimatedArrival(estArr);
+                nextBus2.setEstimatedArrival(estArr2);
+                nextBus3.setEstimatedArrival(estArr3);
+
+                busService.setNextBus(nextBus);
+                busService.setNextBus2(nextBus2);
+                busService.setNextBus3(nextBus3);
+
+                busServices.add(busService);
+            }
+
+            
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "IOError while parsing JSON String: " + e);
+            return "error";
+        }
+
+        for (BusService busSvc:busServices) {
+            messageBody += "Service %s: %s mins, %s mins, %s mins ".formatted(
+                busSvc.serviceNumber, 
+                busSvc.getNextBus().estimatedArrival.toString(), 
+                busSvc.getNextBus2().estimatedArrival.toString(),
+                busSvc.getNextBus3().estimatedArrival.toString());
+        }
+        System.out.println(messageBody);
+        return messageBody;
     }
 
     public String getDayOfWeek() {

@@ -8,5 +8,5 @@ public class Constants {
     public static final String URL_BUS_STOP_BY_ID = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2";
     public static final String URL_ALL_BUS_STOPS = "http://datamall2.mytransport.sg/ltaodataservice/BusStops";
     public static final String URL_FIREBASE = "https://fcm.googleapis.com/fcm/send";
-    public static final String APP_VERSION = "v0.01";
+    public static final String APP_VERSION = "v0.10";
 }

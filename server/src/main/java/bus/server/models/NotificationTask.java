@@ -18,7 +18,8 @@ public class NotificationTask implements Runnable {
     @Override
     public void run() {
         notification.setMessageTitle("Bus Stop data for id: " + notification.getBusStopCode());
-        notification.setMessageBody(busHelper.getBusStopById(notification.getBusStopCode()));
+        String jsonResult = busHelper.getBusStopById(notification.getBusStopCode());
+        notification.setMessageBody(Notification.parseJsonNotification(jsonResult));
         NotificationSender notificationSender = new NotificationSender(notification);
         String resp = notificationSender.sendNotification();
         logger.log(Level.INFO, "Notification sent, response from FCM server is: " + resp);
