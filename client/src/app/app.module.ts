@@ -19,6 +19,7 @@ import { UserLoginComponent } from './components/user-login.component';
 import { UserFavouritesComponent } from './components/user-favourites.component';
 import { UserNotificationsComponent } from './components/user-notifications.component';
 import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 initializeApp(environment.firebase);
 const appRoutes: Routes = [
@@ -45,6 +46,7 @@ const appRoutes: Routes = [
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

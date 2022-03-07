@@ -2,20 +2,24 @@
 <form [formGroup]="newUserForm" (ngSubmit)="submitRegistration()">
   <table>
     <tr>
-      <td>Username: </td>
       <mat-form-field>
+        <mat-label>Username</mat-label>
         <td><input matInput type="text" formControlName="username"></td>
       </mat-form-field>
     </tr>
     <tr>
-      <td>Password: </td>
-      <mat-form-field>
-        <td><input matInput type="password" formControlName="password"></td>
-      </mat-form-field>
+      <td>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+      </td>
     </tr>
     <tr>
-      <td><button mat-raised-button type="button" [routerLink]="['']">Back</button></td>
-      <td><button mat-raised-button type="submit" [disabled]="newUserForm.invalid">Submit</button></td>
+      <td>
+        <button mat-raised-button type="button" [routerLink]="['']">Back</button>
+        <button mat-raised-button type="submit" [disabled]="newUserForm.invalid">Submit</button>
+      </td>
     </tr>
   </table>
 </form>
