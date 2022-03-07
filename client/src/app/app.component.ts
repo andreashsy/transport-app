@@ -6,6 +6,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { UserFavouritesComponent } from './components/user-favourites.component';
 import { User } from './models/model';
 import { UserService } from './services/user.service';
+import { VersionService } from './services/version.service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,13 @@ export class AppComponent implements OnInit {
   token: string = "";
   message:any = null;
   user: string = "";
+  clientVersion: string = "v0.10"
+  serverVersion: string = ""
+
   constructor(
     private tokenService: TokenService,
     private userService: UserService,
+    private versionSvc: VersionService,
     private router: Router
   ) {}
   ngOnInit(): void {
@@ -31,6 +36,13 @@ export class AppComponent implements OnInit {
         }
       }
     });
+    this.versionSvc.getVersion()
+      .then(result => {
+        this.serverVersion = result
+      })
+      .catch(error => {
+        console.error(error)
+      })
 
   }
 

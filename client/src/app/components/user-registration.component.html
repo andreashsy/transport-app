@@ -3,15 +3,19 @@
   <table>
     <tr>
       <td>Username: </td>
-      <td><input type="text" formControlName="username"></td>
+      <mat-form-field>
+        <td><input matInput type="text" formControlName="username"></td>
+      </mat-form-field>
     </tr>
     <tr>
       <td>Password: </td>
-      <td><input type="password" formControlName="password"></td>
+      <mat-form-field>
+        <td><input matInput type="password" formControlName="password"></td>
+      </mat-form-field>
     </tr>
     <tr>
-      <td><button type="button" [routerLink]="['']">Back</button></td>
-      <td><button type="submit" [disabled]="newUserForm.invalid">Submit</button></td>
+      <td><button mat-raised-button type="button" [routerLink]="['']">Back</button></td>
+      <td><button mat-raised-button type="submit" [disabled]="newUserForm.invalid">Submit</button></td>
     </tr>
   </table>
 </form>

@@ -1,15 +1,14 @@
-<h2>Bus Arrival - {{clientVersion}}</h2>
-<p *ngIf="clientVersion != serverVersion && serverVersion">New version of app available, please refresh this page</p>
+<mat-card>
+  <h4>Search bus stops (description/road name) - ({{numStops}} bus stops in service)</h4>
+  <form [formGroup]="searchForm" (ngSubmit)="search()">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Bugis Cube/Nth Bridge Rd" formControlName="searchWords">
+    </mat-form-field>
+    <button mat-raised-button type="submit">Search</button>
+  </form>
 
-<h4>Search bus stops (description/road name) - ({{numStops}} bus stops in service)</h4>
-<form [formGroup]="searchForm" (ngSubmit)="search()">
-  <input type="text" placeholder="Bugis Cube/Nth Bridge Rd" formControlName="searchWords">
-  <button type="submit">Search</button>
-</form>
 
-<div *ngIf="searchMsg">
-  <p>{{searchMsg}}</p>
-</div>
+
 <div *ngIf="busStops.length > 0">
   <ul *ngFor="let busStop of busStops">
     <li [routerLink]="['/busStop', busStop.BusStopCode]">
@@ -17,35 +16,32 @@
     </li>
   </ul>
 </div>
+</mat-card>
 
+<mat-card>
 <h4>Bus arrival data by bus stop code</h4>
 <form [formGroup]="arrivalForm" (ngSubmit)="getArrivalData()">
-  <input type="text" placeholder="01109" formControlName="busStopCode">
-  <button type="submit">Get arrival data</button>
+  <mat-form-field>
+    <input matInput type="text" placeholder="01109" formControlName="busStopCode">
+  </mat-form-field>
+  <button mat-raised-button type="submit">Get arrival data</button>
 </form>
 
 <div *ngIf="busServices.length <= 0">
   <p>No bus services found</p>
 </div>
 <div *ngIf="busServices.length > 0">
-  <ul *ngFor="let busService of busServices">
-    <li>
-      Service Number: {{busService.ServiceNo}} -
-      <span *ngIf="busService.NextBus?.EstimatedArrival" [ngClass]="busService.NextBus!.Load">
-        First Bus: {{((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes
-      </span>
-      <span *ngIf="busService.NextBus2?.EstimatedArrival" [ngClass]="busService.NextBus2!.Load">
-         - Second Bus: {{((busService.NextBus2!.EstArr!.valueOf() - timeNow) - (busService.NextBus2!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes
-      </span>
-      <span *ngIf="busService.NextBus3?.EstimatedArrival" [ngClass]="busService.NextBus3!.Load">
-         - Third Bus: {{((busService.NextBus3!.EstArr!.valueOf() - timeNow) - (busService.NextBus3!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes
-      </span>
-
-    </li>
-  </ul>
-  <button *ngIf="user" (click)="saveBusStop()">Save to favourites</button>
+  <table>
+    <tr *ngFor="let busService of busServices">
+      <td>Service Number: {{busService.ServiceNo}}</td>
+      <td *ngIf="busService.NextBus?.EstimatedArrival" [ngClass]="busService.NextBus!.Load">First Bus: {{((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
+      <td *ngIf="busService.NextBus2?.EstimatedArrival" [ngClass]="busService.NextBus2!.Load">Second Bus: {{((busService.NextBus2!.EstArr!.valueOf() - timeNow) - (busService.NextBus2!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
+      <td *ngIf="busService.NextBus3?.EstimatedArrival" [ngClass]="busService.NextBus3!.Load">Third Bus: {{((busService.NextBus3!.EstArr!.valueOf() - timeNow) - (busService.NextBus3!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
+    </tr>
+  </table>
+  <button mat-raised-button *ngIf="user" (click)="saveBusStop()">Save to favourites</button>
 </div>
-
+</mat-card>
 
 <br>
-<button (click)="reloadBusStops()">Get new bus stop data</button>
+<button mat-raised-button (click)="reloadBusStops()">Refresh bus stop data</button>

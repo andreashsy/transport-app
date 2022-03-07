@@ -9,3 +9,11 @@
 .LSD {
     background-color: pink;
 }
+
+.topbar {
+  justify-content: space-between;
+}
+.topbar>div>button {
+  margin-left: 4px;
+  margin-right: 4px;
+}

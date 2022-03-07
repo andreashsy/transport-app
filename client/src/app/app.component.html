@@ -1,15 +1,26 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="topbar">
+    <div>
+      <h2>Bus Arrival - {{clientVersion}}</h2>
+      <p *ngIf="clientVersion != serverVersion && serverVersion">New version of app available, please refresh this page</p>
+    </div>
+    <div *ngIf="user">
+      <span>Welcome, {{user}}!</span>
+      <button mat-raised-button [routerLink]="['favourites']">Favourites</button>
+      <button mat-raised-button [routerLink]="['notifications']">Notifications</button>
+      <button mat-raised-button (click)="logout()">Log out</button>
+      <button mat-raised-button (click)="updateToken()">Update Token</button>
+    </div>
+    <div *ngIf="!user">
+      <button mat-raised-button [routerLink]="['register']">Register</button>
+      <button mat-raised-button [routerLink]="['login']">Log in</button>
+    </div>
+  </mat-toolbar-row>
 
-<div *ngIf="user" style="border: 1px solid black;">
-  <p>Logged in as: {{user}}</p>
-  <button [routerLink]="['favourites']">Favourites</button>
-  <button [routerLink]="['notifications']">Notifications</button>
-  <button (click)="logout()">Log out</button>
-  <button (click)="updateToken()">Update Token</button>
-</div>
-<div *ngIf="!user" style="border: 1px solid black;">
-  <button [routerLink]="['register']">Register</button>
-  <button [routerLink]="['login']">Log in</button>
-</div>
+</mat-toolbar>
+
+
 <router-outlet></router-outlet>
-<p>Contains information from Bus Stops and Bus Arrival from LTA which is made available under the terms of the <a href="https://datamall.lta.gov.sg/content/datamall/en/SingaporeOpenDataLicence.html">Singapore Open Data Licence version 1.0</a></p>
-
+<mat-toolbar>
+  <p>Contains information from Bus Stops and Bus Arrival from LTA which is made available under the terms of the <a href="https://datamall.lta.gov.sg/content/datamall/en/SingaporeOpenDataLicence.html">Singapore Open Data Licence version 1.0</a></p>
+</mat-toolbar>

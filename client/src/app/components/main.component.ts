@@ -20,15 +20,12 @@ export class MainComponent implements OnInit {
   numStops!: number
   searchMsg: string = ""
   timeNow: number = Date.now()
-  clientVersion: string = "v0.10"
-  serverVersion: string = ""
   user: string = ""
 
   constructor(
     private fb: FormBuilder,
     private busStopSvc: BusStopService,
     private busArrivalSvc: BusArrivalService,
-    private versionSvc: VersionService,
     private tokenSvc: TokenService,
     private userSvc: UserService
   ) {}
@@ -43,13 +40,7 @@ export class MainComponent implements OnInit {
       .catch(error => {
         console.error(error)
       })
-    this.versionSvc.getVersion()
-      .then(result => {
-        this.serverVersion = result
-      })
-      .catch(error => {
-        console.error(error)
-      })
+
     if (this.tokenSvc.jwtToken) {
       this.user = this.tokenSvc.username
     }
