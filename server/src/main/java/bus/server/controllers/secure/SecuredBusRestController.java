@@ -1,6 +1,7 @@
 package bus.server.controllers.secure;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -143,11 +144,16 @@ public class SecuredBusRestController {
     }
 
     @GetMapping(path="/updateBusStopDatabase")
-    public ResponseEntity<String> updateBusStopDatabase() {
+    public ResponseEntity<String> updateBusStopDatabase(@RequestHeader String username) {
+        if (!username.equals("admin")) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(httpResponseHelper.jsonifyString("error", "not allowed"));
+        }
         List<BusStop> busStops = busHelper.getAllBusStops();
         boolean isUpdated = busStopService.updateBusStops(busStops);
         return ResponseEntity.ok(
             httpResponseHelper.jsonifyString(
-                "result", String.valueOf(isUpdated)));
+                "is update successful?", String.valueOf(isUpdated)));
     }
 }

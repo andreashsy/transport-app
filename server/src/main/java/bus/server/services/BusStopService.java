@@ -17,9 +17,12 @@ public class BusStopService {
 
     public boolean updateBusStops(List<BusStop> busStops) {
         Optional<String> opt = userRepository.deleteAllBusStops();
-        int[] added = userRepository.batchaddBusStop(busStops);
-        boolean isBatchSuccessful = !IntStream.of(added).anyMatch(x -> x == 0);
-        return (isBatchSuccessful);
+        if (opt.isPresent()) {
+            int[] added = userRepository.batchaddBusStop(busStops);
+            boolean isBatchSuccessful = !IntStream.of(added).anyMatch(x -> x == 0);
+            return (isBatchSuccessful);
+        }
+        return false;
     }
 
 }
