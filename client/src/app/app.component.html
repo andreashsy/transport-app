@@ -9,7 +9,7 @@
       <button mat-raised-button [routerLink]="['favourites']">Favourites</button>
       <button mat-raised-button [routerLink]="['notifications']">Notifications</button>
       <button mat-raised-button (click)="logout()">Log out</button>
-      <button mat-raised-button (click)="updateToken()">Update Token</button>
+      <button mat-raised-button [routerLink]="['settings']">Settings</button>
     </div>
     <div *ngIf="!user">
       <button mat-raised-button [routerLink]="['register']">Register</button>

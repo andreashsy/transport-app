@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BusStop } from '../models/model';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 
@@ -11,7 +12,7 @@ import { UserService } from '../services/user.service';
 export class UserFavouritesComponent implements OnInit {
 
   favStops: string = ""
-  stops: string[] = []
+  stops: BusStop[] = []
 
   constructor(
     private userService: UserService,
@@ -28,6 +29,7 @@ export class UserFavouritesComponent implements OnInit {
       this.userService.getFavouriteBusStops(this.tokenService.username)
         .then(result => {
           this.favStops = JSON.stringify(result)
+          console.info("Favourite Stops: " + this.favStops)
           this.stops = result.favourites
         })
         .catch(err => {
@@ -43,7 +45,7 @@ export class UserFavouritesComponent implements OnInit {
 
   async deleteFavourite(index: number) {
     console.log("deleting stop number: ", this.stops[index])
-    await this.userService.deleteFavouriteBusStops(this.tokenService.username, this.stops[index])
+    await this.userService.deleteFavouriteBusStops(this.tokenService.username, this.stops[index].BusStopCode)
       .then(result => {
         console.info(result)
         this.stops.splice(index, 1)

@@ -1,9 +1,11 @@
 <h2>Your Saved Bus Stops</h2>
 <p *ngIf="stops.length === 0">No bus stop saved!</p>
 
-<table *ngFor="let busStopCode of stops; let i = index">
+<table *ngFor="let busStop of stops; let i = index">
   <tr>
-    <td [routerLink]="['/busStop', busStopCode]">{{busStopCode}}</td>
+    <td [routerLink]="['/busStop', busStop.BusStopCode]">Bus Stop Code: {{busStop.BusStopCode}}, </td>
+    <td>Road Name: {{busStop.RoadName}}, </td>
+    <td>Description: {{busStop.Description}}</td>
     <td>
       <button mat-button color="warn" (click)="deleteFavourite(i)">X</button>
     </td>

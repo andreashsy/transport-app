@@ -13,6 +13,7 @@ import bus.server.repositories.UserRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 @Service
 public class UserService {
@@ -43,17 +44,6 @@ public class UserService {
 
     public Optional<List<BusStop>> getFavouriteBusStops(String username) {
         Optional<List<BusStop>> opt = userRepository.getFavouriteBusStops(username);
-
-        if (opt.isPresent()) {
-            JsonArrayBuilder jab = Json.createArrayBuilder();
-            for (BusStop busStop: opt.get()) {
-                jab.add(busStop.getBusStopCode());
-            }
-            JsonObject jo = Json.createObjectBuilder()
-                .add("favourites", jab)
-                .build();
-            
-        }
         return opt;
     }
 
@@ -61,7 +51,12 @@ public class UserService {
         if (busStops.isPresent()) {
             JsonArrayBuilder jab = Json.createArrayBuilder();
             for (BusStop busStop: busStops.get()) {
-                jab.add(busStop.getBusStopCode());
+                JsonObject joo = Json.createObjectBuilder()
+                .add("BusStopCode", busStop.getBusStopCode())
+                .add("RoadName", busStop.getRoadName())
+                .add("Description", busStop.getRoadName())
+                .build();
+                jab.add(joo);
             }
             JsonObject jo = Json.createObjectBuilder()
                 .add("favourites", jab)

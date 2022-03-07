@@ -82,6 +82,12 @@ export class UserService {
     )
   }
 
+  public async updateTelegramUsername(telegramUsername: string) {
+    return await lastValueFrom(
+      this.http.patch<any>(Constants.URL_BASE + "api/secure/telegramUsername", telegramUsername, this.generateAuthenticationHeaders())
+    )
+  }
+
   generateAuthenticationHeaders() {
     return {
       headers: new HttpHeaders({

@@ -156,4 +156,12 @@ public class SecuredBusRestController {
             httpResponseHelper.jsonifyString(
                 "is update successful?", String.valueOf(isUpdated)));
     }
+
+    @PatchMapping(path="/telegramUsername")
+    public ResponseEntity<String> updateTelegramUsername(@RequestHeader String username, @RequestBody String telegramUsername) {
+        boolean isUpdated = userService.setTelegramUsername(username, telegramUsername);
+        return ResponseEntity.ok(
+            httpResponseHelper.jsonifyString(
+                "is telegram username updated?", String.valueOf(isUpdated)));
+    }
 }

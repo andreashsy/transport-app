@@ -20,6 +20,7 @@ import { UserFavouritesComponent } from './components/user-favourites.component'
 import { UserNotificationsComponent } from './components/user-notifications.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserSettingsComponent } from './components/user-settings.component';
 
 initializeApp(environment.firebase);
 const appRoutes: Routes = [
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'favourites', component: UserFavouritesComponent },
   { path: 'notifications', component: UserNotificationsComponent },
+  { path: 'settings', component: UserSettingsComponent },
 ]
 
 @NgModule({
@@ -39,7 +41,8 @@ const appRoutes: Routes = [
     UserRegistrationComponent,
     UserLoginComponent,
     UserFavouritesComponent,
-    UserNotificationsComponent
+    UserNotificationsComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,

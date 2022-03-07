@@ -1,0 +1,9 @@
+<h2>User Settings</h2>
+<form [formGroup]="form" (ngSubmit)="updateTelegramUsername()">
+  <mat-form-field>
+    <input matInput type="text" formControlName="telegramUsername">
+  </mat-form-field>
+  <button mat-raised-button>Update Telegram Username</button>
+</form>
+<button mat-raised-button (click)="updateToken()">Update Notification Token</button>
+<button mat-raised-button [routerLink]="['/']">Back</button>
