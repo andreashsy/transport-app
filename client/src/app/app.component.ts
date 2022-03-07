@@ -7,6 +7,7 @@ import { UserFavouritesComponent } from './components/user-favourites.component'
 import { User } from './models/model';
 import { UserService } from './services/user.service';
 import { VersionService } from './services/version.service';
+import { Constants } from './constants';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
   token: string = "";
   message:any = null;
   user: string = "";
-  clientVersion: string = "v0.10"
+  clientVersion: string = Constants.VERSION
   serverVersion: string = ""
 
   constructor(
