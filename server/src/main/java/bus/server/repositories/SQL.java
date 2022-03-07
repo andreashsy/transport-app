@@ -19,7 +19,7 @@ public class SQL {
     public static final String SQL_GET_FIREBASE_TOKEN = "select notification_token as token from users where username = ?";
     public static final String SQL_DELETE_ALL_BUS_STOPS = "delete from bus_stop";
     public static final String SQL_ADD_BUS_STOP = "insert into bus_stop (bus_stop_id, road_name, description) values (?, ?, ?)";
-    public static final String SQL_SEARCH_BUS_STOPS = "select * from bus_stop where road_name like ? or description like ?";
+    public static final String SQL_SEARCH_BUS_STOPS = "select * from bus_stop where road_name like lower(?) or description like lower(?)";
     public static final String SQL_UPDATE_TELEGRAM_USERNAME = "update users set telegram_username = ? where username = ?";
     public static final String SQL_GET_USERNAME_FROM_TELEGRAM_USERNAME = "select username from users where telegram_username = ?";
     public static final String SQL_DOES_TELEGRAM_USER_EXIST = "select count(*) as count from users where telegram_username = ?";
