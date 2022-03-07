@@ -1,4 +1,4 @@
-#Setup guide
+# Setup guide
 
 #### 1. Firebase (for notifications)
     Follow the article to setup firebase
