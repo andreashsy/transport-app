@@ -26,26 +26,26 @@ export class UserService {
 
   async saveFavouriteBusStop(username: string, busStopCode: string) {
     return await lastValueFrom(
-      this.http.post<any>(Constants.URL_BASE + "secure/favourite", busStopCode, this.generateAuthenticationHeaders())
+      this.http.post<any>(Constants.URL_BASE + "api/secure/favourite", busStopCode, this.generateAuthenticationHeaders())
     )
   }
 
   async getFavouriteBusStops(username: String) {
     return await lastValueFrom(
-      this.http.get<any>(Constants.URL_BASE + "secure/favourite", this.generateAuthenticationHeaders())
+      this.http.get<any>(Constants.URL_BASE + "api/secure/favourite", this.generateAuthenticationHeaders())
     )
   }
 
   async deleteFavouriteBusStops(username: string, busStopCode: string) {
     return await lastValueFrom(
-      this.http.delete(Constants.URL_BASE + "secure/favourite/" + busStopCode, this.generateAuthenticationHeaders())
+      this.http.delete(Constants.URL_BASE + "api/secure/favourite/" + busStopCode, this.generateAuthenticationHeaders())
     )
   }
 
   async addNotification(notification: NotificationForm) {
     return await lastValueFrom(
       this.http.post<any>(
-        Constants.URL_BASE + "secure/notification",
+        Constants.URL_BASE + "api/secure/notification",
         notification,
         this.generateAuthenticationHeaders())
     )
@@ -53,19 +53,26 @@ export class UserService {
 
   async getNotifications(username: String) {
     return await lastValueFrom(
-      this.http.get<any>(Constants.URL_BASE + "secure/notification", this.generateAuthenticationHeaders())
+      this.http.get<any>(Constants.URL_BASE + "api/secure/notification", this.generateAuthenticationHeaders())
     )
   }
 
   async deleteNotification(username: string, busStopCode: string, cronString: string) {
+    let headers = {
+      headers: new HttpHeaders({
+        Authorization: this.tokenService.jwtToken || "",
+        Username: this.tokenService.username || "",
+        cronString: cronString
+      })
+    }
     return await lastValueFrom(
-      this.http.delete(Constants.URL_BASE + "secure/notification/" + busStopCode + "/" + cronString, this.generateAuthenticationHeaders())
+      this.http.delete(Constants.URL_BASE + "api/secure/notification/" + busStopCode, headers)
     )
   }
 
   async updateToken(user: User) {
     return await lastValueFrom(
-      this.http.patch<any>(Constants.URL_BASE + "secure/firebasetoken", user, this.generateAuthenticationHeaders())
+      this.http.patch<any>(Constants.URL_BASE + "api/secure/firebasetoken", user, this.generateAuthenticationHeaders())
     )
   }
 

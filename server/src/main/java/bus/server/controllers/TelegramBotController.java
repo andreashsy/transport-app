@@ -14,6 +14,9 @@ import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 
+import bus.server.models.Notification;
+import bus.server.utilities.BusHelper;
+
 import static bus.server.Constants.*;
 
 import java.io.IOException;
@@ -21,37 +24,31 @@ import java.io.IOException;
 @BotController
 public class TelegramBotController implements TelegramMvcController{
     private String token = TOKEN_TELEGRAM_BOT;
+    private String defaultReply = """
+        Not recognised.
+        List of commands:
+        /arrival <5 digit bus stop code> for bus stop data""";
 
     @Override
     public String getToken() {
         return token;
     }
-    @BotRequest(value = "/hello", type = {MessageType.CALLBACK_QUERY, MessageType.MESSAGE})
-    public BaseRequest hello(User user, Chat chat) {
-        return new SendMessage(chat.id(), "Hello, " + user.firstName() + "!!!");
+    @MessageRequest("**")
+    public String catchAllMessage() {
+        return defaultReply;
     }
 
-    @MessageRequest("/hello {name:[\\S]+}")
-    public String helloWithName(@BotPathVariable("name") String userName) {
-        // Return a string if you need to reply with a simple message
-        return "Hello, " + userName;
+    @MessageRequest("/**")
+    public String catchAllMessageSlash() {
+        return defaultReply;
     }
 
-    @MessageRequest("/helloCallback")
-    public String helloWithCustomCallback(TelegramRequest request, User user) {
-        request.setCallback(new Callback() {
-            @Override
-            public void onResponse(BaseRequest request, BaseResponse response) {
-                // TODO
-                
-            }
-
-            @Override
-            public void onFailure(BaseRequest request, IOException e) {
-                // TODO
-            }
-        });
-        return "Hello, " + user.firstName() + "!";
+    @MessageRequest("/arrival {busStopCode:[0-9]+}")
+    public String getBusArrival(@BotPathVariable("busStopCode") String busStopCode) {
+        BusHelper busHelper = new BusHelper();
+        String jsonResp = busHelper.getBusStopById(busStopCode);
+        
+        return "Arrival data for bus stop " + busStopCode + ": " + Notification.parseJsonNotification(jsonResp);
     }
 
 }

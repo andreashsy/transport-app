@@ -190,6 +190,10 @@ public class Notification {
                 nextBus2.setEstimatedArrival(estArr2);
                 nextBus3.setEstimatedArrival(estArr3);
 
+                nextBus.calculateArrivalTime();
+                nextBus2.calculateArrivalTime();
+                nextBus3.calculateArrivalTime();
+
                 busService.setNextBus(nextBus);
                 busService.setNextBus2(nextBus2);
                 busService.setNextBus3(nextBus3);
@@ -204,11 +208,11 @@ public class Notification {
         }
 
         for (BusService busSvc:busServices) {
-            messageBody += "Service %s: %s mins, %s mins, %s mins ".formatted(
+            messageBody += "Service %s: %s, %s, %s. ".formatted(
                 busSvc.serviceNumber, 
-                busSvc.getNextBus().estimatedArrival.toString(), 
-                busSvc.getNextBus2().estimatedArrival.toString(),
-                busSvc.getNextBus3().estimatedArrival.toString());
+                busSvc.getNextBus().arrivalTime.toString(), 
+                busSvc.getNextBus2().arrivalTime.toString(),
+                busSvc.getNextBus3().arrivalTime.toString());
         }
         System.out.println(messageBody);
         return messageBody;

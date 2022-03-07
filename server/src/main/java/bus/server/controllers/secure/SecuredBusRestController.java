@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping(path="/secure", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path="/api/secure", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SecuredBusRestController {
     private final Logger logger = Logger.getLogger(SecuredBusRestController.class.getName());
     HttpResponseHelper httpResponseHelper = new HttpResponseHelper();
@@ -113,11 +113,11 @@ public class SecuredBusRestController {
         return ResponseEntity.ok("{}");
         }
 
-    @DeleteMapping(path="/notification/{busStopCode}/{cronString}")
+    @DeleteMapping(path="/notification/{busStopCode}")
     public ResponseEntity<String> deleteNotification(
         @RequestHeader String username,
         @PathVariable String busStopCode,
-        @PathVariable String cronString
+        @RequestHeader String cronString
     ) {
         Notification notification = new Notification();
         notification.setUsername(username);

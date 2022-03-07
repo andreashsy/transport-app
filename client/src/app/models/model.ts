@@ -12,6 +12,7 @@ export interface Bus {
     OriginCode: string
     DestinationCode: string
     EstimatedArrival: string
+    ArrivalTime: string
     Latitude: string
     Longitude: string
     VisitNumber: string

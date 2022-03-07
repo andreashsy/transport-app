@@ -49,13 +49,13 @@ export class AppComponent implements OnInit {
         console.log('An error occurred while retrieving token. ', err);
     });
   }
-  
+
   listenForNotifications() {
     const messaging = getMessaging();
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload);
       this.message=payload;
-      alert(JSON.stringify(payload))
+      alert(JSON.stringify(payload.notification?.body))
     });
   }
 
