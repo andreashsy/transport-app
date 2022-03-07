@@ -75,9 +75,9 @@ public class SecuredBusRestController {
     public ResponseEntity<String> getFavourites(
         @RequestHeader String username
         ) {        
-        Optional<String> opt = userService.getFavouriteBusStops(username);
+        Optional<List<BusStop>> opt = userService.getFavouriteBusStops(username);
         if (opt.isPresent()) {
-            return ResponseEntity.ok(opt.get());
+            return ResponseEntity.ok(UserService.stringifyBusStop(opt).get());
         }
         return ResponseEntity.ok("{}");
     }

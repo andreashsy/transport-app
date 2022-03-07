@@ -201,4 +201,27 @@ public class UserRepository {
         if (busStops.size() < 1) {return Optional.empty();}
         return Optional.of(busStops);
     } 
+
+    public Optional<String> getUsernameFromTelegramUsername(String telegramUsername) {
+        final SqlRowSet rs = template.queryForRowSet(SQL_GET_USERNAME_FROM_TELEGRAM_USERNAME, telegramUsername);
+        if (rs.next()) {
+            return Optional.of(rs.getString("username"));
+        }
+        return Optional.empty();
+    }   
+
+    public boolean setTelegramUsername(String username, String telegramUsername) {
+        final int recordsUpdated = template.update(
+            SQL_UPDATE_TELEGRAM_USERNAME, telegramUsername, username);
+        return recordsUpdated > 0;
+    }
+
+    public boolean doesTelegramUserExist(String telegramUsername) {
+        int count = 0;
+        final SqlRowSet rs = template.queryForRowSet(SQL_DOES_TELEGRAM_USER_EXIST, telegramUsername);
+        while (rs.next()) {
+            count = rs.getInt("count");
+        }
+        return count > 0;
+    }
 }

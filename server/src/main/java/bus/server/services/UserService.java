@@ -41,12 +41,26 @@ public class UserService {
         return false;
     }
 
-    public Optional<String> getFavouriteBusStops(String username) {
+    public Optional<List<BusStop>> getFavouriteBusStops(String username) {
         Optional<List<BusStop>> opt = userRepository.getFavouriteBusStops(username);
 
         if (opt.isPresent()) {
             JsonArrayBuilder jab = Json.createArrayBuilder();
             for (BusStop busStop: opt.get()) {
+                jab.add(busStop.getBusStopCode());
+            }
+            JsonObject jo = Json.createObjectBuilder()
+                .add("favourites", jab)
+                .build();
+            
+        }
+        return opt;
+    }
+
+    public static Optional<String> stringifyBusStop(Optional<List<BusStop>> busStops) {
+        if (busStops.isPresent()) {
+            JsonArrayBuilder jab = Json.createArrayBuilder();
+            for (BusStop busStop: busStops.get()) {
                 jab.add(busStop.getBusStopCode());
             }
             JsonObject jo = Json.createObjectBuilder()
@@ -114,4 +128,15 @@ public class UserService {
         return userRepository.searchBusStops(query);
     }
 
+    public boolean setTelegramUsername(String username, String telegramUsername) {
+        return userRepository.setTelegramUsername(username, telegramUsername);
+    }
+
+    public Optional<String> getUsernameFromTelegramUsername(String telegramUsername) {
+        return userRepository.getUsernameFromTelegramUsername(telegramUsername);
+    }
+
+    public boolean doesTelegramUserExist(String telegramUsername) {
+        return userRepository.doesTelegramUserExist(telegramUsername);
+    }
 }

@@ -3,7 +3,6 @@ import { environment } from "../environments/environment";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { TokenService } from './services/token.service';
 import { NavigationStart, Router } from '@angular/router';
-import { UserFavouritesComponent } from './components/user-favourites.component';
 import { User } from './models/model';
 import { UserService } from './services/user.service';
 import { VersionService } from './services/version.service';
@@ -66,7 +65,7 @@ export class AppComponent implements OnInit {
   listenForNotifications() {
     const messaging = getMessaging();
     onMessage(messaging, (payload) => {
-      console.log('Message received. ', payload);
+      console.log('Notification received. ', payload);
       this.message=payload;
       alert(JSON.stringify(payload.notification?.body))
     });

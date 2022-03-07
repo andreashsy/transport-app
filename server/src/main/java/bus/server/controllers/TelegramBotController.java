@@ -73,8 +73,44 @@ public class TelegramBotController implements TelegramMvcController{
             }
             return results;
         }
-        
         return "No data found for " + rawQuery;
     }
+
+    @MessageRequest("/getfavourites")
+    public String listFavouriteBusStop(User user) {
+            String result = "";
+            if (user.username().length() <= 1) {
+                return "You do not have a telegram username";
+            }
+            if (!userService.doesTelegramUserExist(user.username())) {
+                return "Telegram username not registered";
+            }
+            Optional<String> opt = userService.getUsernameFromTelegramUsername(user.username());
+            if (opt.isPresent()) {
+                List<BusStop> busStops = userService.getFavouriteBusStops(user.username()).get();
+                for (BusStop bs:busStops) {
+                    result += "Bus Stop Code: " + bs.getBusStopCode() + 
+                        ", Road Name: " + bs.getRoadName() + 
+                        ", Description: " + bs.getDescription() + ".";
+                }
+                return result;
+            }
+            return "Your username is not registered";
+        }
+
+    @MessageRequest("/favourite {busStopCode:[0-9]+}")
+    public String favouriteBusStop(
+        @BotPathVariable("busStopCode") String busStopCode,
+        User user) {
+            if (user.username().length() <= 1) {
+                return "You do not have a telegram username";
+            }
+            if (!userService.doesTelegramUserExist(user.username())) {
+                return "Telegram username not registered";
+            }
+            String username = userService.getUsernameFromTelegramUsername(user.username()).get();
+            userService.addFavourite(username, busStopCode);
+            return "Bus Stop saved!";
+        }
 
 }
