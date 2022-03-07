@@ -4,6 +4,7 @@
 Follow the article to setup firebase
 https://medium.com/@jishnusaha89/firebase-cloud-messaging-push-notifications-with-angular-1fb7f173bfba   
 Then save the firebase server key as "FIREBASE_SERVER_KEY" your environment variables
+Note: if switching between multiple clients/browsers, please update the notification token (found in the settings page)  
 
 ### 2. JWT Signing key
 Create a >512 bit key in your environment variable as "JWT_SIGNKEY"  

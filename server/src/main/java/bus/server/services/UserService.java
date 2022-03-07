@@ -13,7 +13,6 @@ import bus.server.repositories.UserRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 
 @Service
 public class UserService {
