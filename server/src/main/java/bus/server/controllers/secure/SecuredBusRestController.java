@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import bus.server.models.BusStop;
 import bus.server.models.Notification;
 import bus.server.models.NotificationTask;
 import bus.server.services.AuthenticateService;
+import bus.server.services.BusStopService;
 import bus.server.services.TaskSchedulingService;
 import bus.server.services.UserService;
+import bus.server.utilities.BusHelper;
 import bus.server.utilities.HttpResponseHelper;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +33,10 @@ import java.util.logging.Logger;
 public class SecuredBusRestController {
     private final Logger logger = Logger.getLogger(SecuredBusRestController.class.getName());
     HttpResponseHelper httpResponseHelper = new HttpResponseHelper();
+    BusHelper busHelper = new BusHelper();
+
+    @Autowired
+    BusStopService busStopService;
 
     @Autowired
     UserService userService;
@@ -132,5 +140,14 @@ public class SecuredBusRestController {
         return ResponseEntity.ok(
             httpResponseHelper.jsonifyString(
                 "is delete successful?", String.valueOf(isDeleted)));
+    }
+
+    @GetMapping(path="/updateBusStopDatabase")
+    public ResponseEntity<String> updateBusStopDatabase() {
+        List<BusStop> busStops = busHelper.getAllBusStops();
+        boolean isUpdated = busStopService.updateBusStops(busStops);
+        return ResponseEntity.ok(
+            httpResponseHelper.jsonifyString(
+                "result", String.valueOf(isUpdated)));
     }
 }

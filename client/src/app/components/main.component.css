@@ -10,4 +10,7 @@
   background-color: pink;
 }
 
-
+mat-card>div>button {
+  margin-left: 8px;
+  margin-right: 8px;
+}

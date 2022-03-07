@@ -57,7 +57,7 @@ public class BusHelper {
         return resp.getBody();
     }
 
-    public String getAllBusStops() {
+    public List<BusStop> getAllBusStops() {
         List<BusStop> busStops = new LinkedList<BusStop>();
         int loopCount = 1;
         ResponseEntity<String> resp = new ResponseEntity<String>(HttpStatus.I_AM_A_TEAPOT);
@@ -108,7 +108,10 @@ public class BusHelper {
                 break;
             }
         }
+        return busStops;
+    }
 
+    public String busStopToString(List<BusStop> busStops) {
         JsonArrayBuilder jab = Json.createArrayBuilder();
         for (BusStop busStop: busStops) {
             JsonObject jo1 = Json.createObjectBuilder()

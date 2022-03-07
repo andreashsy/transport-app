@@ -17,4 +17,7 @@ public class SQL {
     public static final String SQL_DELETE_NOTIFICATION = "delete from notifications where username = ? and cron_time = ? and bus_stop_id = ?";
     public static final String SQL_GET_NOTIFICATION_ID = "select task_id from notifications where username = ? and cron_time = ? and bus_stop_id = ?";
     public static final String SQL_GET_FIREBASE_TOKEN = "select notification_token as token from users where username = ?";
+    public static final String SQL_DELETE_ALL_BUS_STOPS = "delete from bus_stop";
+    public static final String SQL_ADD_BUS_STOP = "insert into bus_stop (bus_stop_id, road_name, description) values (?, ?, ?)";
+    public static final String SQL_SEARCH_BUS_STOPS = "select * from bus_stop where road_name like ? or description like ?";
 }

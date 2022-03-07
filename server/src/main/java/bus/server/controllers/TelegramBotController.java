@@ -14,25 +14,36 @@ import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import bus.server.models.BusStop;
 import bus.server.models.Notification;
+import bus.server.services.UserService;
 import bus.server.utilities.BusHelper;
 
 import static bus.server.Constants.*;
 
-import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @BotController
 public class TelegramBotController implements TelegramMvcController{
     private String token = TOKEN_TELEGRAM_BOT;
     private String defaultReply = """
-        Not recognised.
+        Command not recognised.
         List of commands:
-        /arrival <5 digit bus stop code> for bus stop data""";
+        /arrival <5 digit bus stop code> for bus stop data
+        /search <description or road name> for bus stop details
+        """;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public String getToken() {
         return token;
     }
+
     @MessageRequest("**")
     public String catchAllMessage() {
         return defaultReply;
@@ -49,6 +60,21 @@ public class TelegramBotController implements TelegramMvcController{
         String jsonResp = busHelper.getBusStopById(busStopCode);
         
         return "Arrival data for bus stop " + busStopCode + ": " + Notification.parseJsonNotification(jsonResp);
+    }
+
+    @MessageRequest("/search {query:[a-z]+}")
+    public String searchBusStops(@BotPathVariable("query") String rawQuery) {
+        String query = rawQuery.trim().toLowerCase();
+        Optional<List<BusStop>> opt = userService.searchBusStops(query);
+        if (opt.isPresent()) {
+            String results = "";
+            for (BusStop bs:opt.get()) {
+                results += "Bus Stop Code: " + bs.getBusStopCode() + " | Road nane: " + bs.getRoadName() + " | Description:  " + bs.getDescription() + "\r\n";
+            }
+            return results;
+        }
+        
+        return "No data found for " + rawQuery;
     }
 
 }

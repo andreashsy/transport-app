@@ -97,6 +97,16 @@ export class MainComponent implements OnInit {
       })
   }
 
+  async updateDatabaseBusStops() {
+    await this.userSvc.updateDatabaseBusStops()
+      .then(result => {
+        console.info(result)
+      })
+      .catch(err => {
+        console.info(err)
+      })
+  }
+
   async saveBusStop() {
     await this.userSvc.saveFavouriteBusStop(this.tokenSvc.username, this.arrivalForm.value.busStopCode)
       .then(result => {

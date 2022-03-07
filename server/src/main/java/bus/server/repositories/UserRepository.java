@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -170,4 +171,34 @@ public class UserRepository {
         }
         return Optional.of(token);
     }
+
+    public Optional<String> deleteAllBusStops() {
+        final int numDeleted = template.update(SQL_DELETE_ALL_BUS_STOPS);
+        return Optional.of(String.valueOf(numDeleted));
+    }
+
+    public int[] batchaddBusStop(List<BusStop> busStops) {
+        List<Object[]> params = busStops.stream()
+            .map(bs -> new Object[]{bs.getBusStopCode(), bs.getRoadName(), bs.getDescription()})
+            .collect(Collectors.toList());
+        
+        int added[] = template.batchUpdate(SQL_ADD_BUS_STOP, params);
+
+        return added;
+    }
+
+    public Optional<List<BusStop>> searchBusStops(String query) {
+        String q = "%" + query + "%";
+        List<BusStop> busStops = new LinkedList<BusStop>();
+        final SqlRowSet rs = template.queryForRowSet(SQL_SEARCH_BUS_STOPS, q, q);
+		while (rs.next()) {
+            BusStop busStop = new BusStop();
+            busStop.setBusStopCode(rs.getString("bus_stop_id"));
+            busStop.setDescription(rs.getString("description"));
+            busStop.setRoadName(rs.getString("road_name"));
+            busStops.add(busStop);
+        }
+        if (busStops.size() < 1) {return Optional.empty();}
+        return Optional.of(busStops);
+    } 
 }

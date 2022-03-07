@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import Dexie from "dexie";
-import { lastValueFrom } from "rxjs";
+import { last, lastValueFrom } from "rxjs";
 import { Constants } from "../constants";
 import { BusStop } from "../models/model";
 
@@ -45,4 +45,5 @@ export class BusStopService extends Dexie {
             .filter((bs: BusStop) => bs.Description.toLowerCase().includes(queryTerm) || bs.RoadName.toLowerCase().includes(queryTerm))
             .toArray()
     }
+
 }

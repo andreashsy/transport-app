@@ -13,6 +13,14 @@ create table users(
     primary key (username)
 );
 
+create table bus_stop(
+    bus_stop_id char(5) not null,
+    road_name varchar(512) not null,
+    description varchar(512),
+
+    primary key (bus_stop_id)
+);
+
 create table bus_stops_favourites(
     bus_stop_id char(5) not null,
     username varchar(64) not null,
@@ -20,7 +28,10 @@ create table bus_stops_favourites(
     primary key (bus_stop_id, username),
     constraint fk_username
         foreign key (username)
-        references users(username)
+        references users(username),
+    constraint fk_bus_stop_id
+        foreign key (bus_stop_id)
+        references bus_stop(bus_stop_id)
 );
 
 create table notifications(
@@ -33,4 +44,6 @@ create table notifications(
         foreign key (username)
         references users(username)
 );
+
+
 

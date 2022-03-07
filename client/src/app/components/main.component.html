@@ -48,6 +48,7 @@
   <div>
     <span>{{numStops}} bus stops saved in memory </span>
     <button mat-raised-button (click)="reloadBusStops()">Refresh bus stop data</button>
+    <button *ngIf="user" mat-raised-button (click)="updateDatabaseBusStops()">Update Database Bus Stops</button>
   </div>
 </mat-card>
 

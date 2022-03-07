@@ -110,4 +110,8 @@ public class UserService {
         return "";
     }
 
+    public Optional<List<BusStop>> searchBusStops(String query) {
+        return userRepository.searchBusStops(query);
+    }
+
 }

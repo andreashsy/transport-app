@@ -76,6 +76,12 @@ export class UserService {
     )
   }
 
+  public async updateDatabaseBusStops() {
+    return await lastValueFrom(
+      this.http.get<any>(Constants.URL_BASE + "api/secure/updateBusStopDatabase", this.generateAuthenticationHeaders())
+    )
+  }
+
   generateAuthenticationHeaders() {
     return {
       headers: new HttpHeaders({
