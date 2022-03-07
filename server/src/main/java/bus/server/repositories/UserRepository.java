@@ -92,9 +92,10 @@ public class UserRepository {
         final SqlRowSet rs = template.queryForRowSet(SQL_GET_FAVOURITE_BUS_STOPS, username);
 		while (rs.next()) {
             BusStop busStop = new BusStop();
-            busStop.setBusStopCode(rs.getString("bus_stop_id"));
+            busStop.setBusStopCode(rs.getString("id"));
+            busStop.setRoadName(rs.getString("road_name"));
+            busStop.setDescription(rs.getString("description"));
             busStops.add(busStop);
-			
         }
         return Optional.of(busStops);
     } 

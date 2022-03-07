@@ -38,7 +38,5 @@ public class BusService {
     public void setNextBus3(Bus nextBus3) {
         this.nextBus3 = nextBus3;
     }
-
-
     
 }

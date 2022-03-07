@@ -9,7 +9,7 @@ public class SQL {
     public static final String SQL_COMPARE_PASSWORDS_BY_USERNAME = "select count(*) as user_count from users where username = ? and password = sha1(?)";
     public static final String SQL_ADD_FAVOURITE_BUS_STOP = "insert into bus_stops_favourites (bus_stop_id, username) values (?, ?)";
     public static final String SQL_CHECK_IF_FAVOURITE_BUS_STOP_EXISTS = "select count(*) as count from bus_stops_favourites where bus_stop_id = ? and username = ?";
-    public static final String SQL_GET_FAVOURITE_BUS_STOPS = "select bus_stop_id from bus_stops_favourites where username = ?";
+    public static final String SQL_GET_FAVOURITE_BUS_STOPS = "select bs.bus_stop_id as id, bs.road_name as road_name, bs.description as description from bus_stop as bs inner join bus_stops_favourites as fav on bs.bus_stop_id = fav.bus_stop_id where fav.username = ?";
     public static final String SQL_DELETE_FAVOURITE_BUS_STOP = "delete from bus_stops_favourites where bus_stop_id = ? and username = ?";
     public static final String SQL_ADD_NOTIFICATION = "insert into notifications (task_id, username, cron_time, bus_stop_id) values (?, ?, ?, ?)";
     public static final String SQL_CHECK_IF_NOTIFICATION_EXISTS = "select count(*) as count from notifications where username = ? and cron_time = ? and bus_stop_id = ?";
