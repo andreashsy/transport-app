@@ -35,7 +35,10 @@
   <table>
     <tr *ngFor="let busService of busServices">
       <td>Service Number: {{busService.ServiceNo}}</td>
-      <td *ngIf="busService.NextBus?.EstimatedArrival" [ngClass]="busService.NextBus!.Load">First Bus: {{((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
+      <div *ngIf="busService.NextBus?.EstimatedArrival">
+        <td *ngIf="(((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000) <= 0" [ngClass]="busService.NextBus!.Load">First Bus: Arriving</td>
+        <td *ngIf="(((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000) > 0" [ngClass]="busService.NextBus!.Load">First Bus: {{((busService.NextBus!.EstArr!.valueOf() - timeNow) - (busService.NextBus!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
+      </div>
       <td *ngIf="busService.NextBus2?.EstimatedArrival" [ngClass]="busService.NextBus2!.Load">Second Bus: {{((busService.NextBus2!.EstArr!.valueOf() - timeNow) - (busService.NextBus2!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
       <td *ngIf="busService.NextBus3?.EstimatedArrival" [ngClass]="busService.NextBus3!.Load">Third Bus: {{((busService.NextBus3!.EstArr!.valueOf() - timeNow) - (busService.NextBus3!.EstArr!.valueOf() - timeNow) % 60000) / 60000}} minutes</td>
     </tr>
