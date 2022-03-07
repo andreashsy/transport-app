@@ -1,10 +1,11 @@
 <mat-card>
-  <h4>Search bus stops (description/road name) - ({{numStops}} bus stops in service)</h4>
+  <h4>Search bus stops (description/road name)</h4>
   <form [formGroup]="searchForm" (ngSubmit)="search()">
     <mat-form-field>
       <input matInput type="text" placeholder="Bugis Cube/Nth Bridge Rd" formControlName="searchWords">
     </mat-form-field>
     <button mat-raised-button type="submit">Search</button>
+
   </form>
 
 
@@ -43,5 +44,11 @@
 </div>
 </mat-card>
 
-<br>
-<button mat-raised-button (click)="reloadBusStops()">Refresh bus stop data</button>
+<mat-card>
+  <div>
+    <span>{{numStops}} bus stops saved in memory </span>
+    <button mat-raised-button (click)="reloadBusStops()">Refresh bus stop data</button>
+  </div>
+</mat-card>
+
+

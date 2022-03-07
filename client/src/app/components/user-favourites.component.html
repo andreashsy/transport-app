@@ -5,8 +5,8 @@
   <tr>
     <td [routerLink]="['/busStop', busStopCode]">{{busStopCode}}</td>
     <td>
-      <button (click)="deleteFavourite(i)">X</button>
+      <button mat-button color="warn" (click)="deleteFavourite(i)">X</button>
     </td>
   </tr>
 </table>
-<button [routerLink]="['/']">Back</button>
+<button mat-raised-button [routerLink]="['/']">Back</button>

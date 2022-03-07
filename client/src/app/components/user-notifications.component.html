@@ -1,41 +1,50 @@
 <h2>Your Notifications</h2>
-<div style="border: 1px solid black;">
-  <p *ngIf="!notifications || notifications.length == 0">No notifications</p>
-  <table>
-    <tr *ngFor="let notification of notifications; let i = index">
-      <td>{{notification.busStopCode}} | {{notification.dayOfWeek}} | {{notification.time}}</td>
-      <td><button (click)="deleteNotification(i)">X</button></td>
-    </tr>
-  </table>
-</div>
-<div style="border: 1px solid black;">
-  <h4>Create new notification</h4>
-  <form [formGroup]="addNotificationForm" (ngSubmit)="addNotification()">
+<mat-card>
+  <div>
+    <p *ngIf="!notifications || notifications.length == 0">No notifications</p>
     <table>
-      <tr>
-        <td>Bus Stop Code:</td>
-        <td><input type="text" formControlName="busStopCode"></td>
-      </tr>
-      <tr>
-        <td>Time:</td>
-        <td><input type="time" formControlName="time"></td>
-      </tr>
-      <tr>
-        <td>Days of week:</td>
-        <td>
-          <select formControlName="dayOfWeek">
-            <option value="weekdays">Weekdays</option>
-            <option value="weekends">Weekends</option>
-            <option value="everyday">Everyday</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><button [disabled]="addNotificationForm.invalid">Submit</button></td>
+      <tr *ngFor="let notification of notifications; let i = index">
+        <td>{{notification.busStopCode}} | {{notification.dayOfWeek}} | {{notification.time}}</td>
+        <td><button mat-button color="warn" (click)="deleteNotification(i)">X</button></td>
       </tr>
     </table>
-  </form>
-</div>
+  </div>
+</mat-card>
 
-<button [routerLink]="['/']">Back</button>
+<mat-card>
+  <div>
+    <h4>Create new notification</h4>
+    <form [formGroup]="addNotificationForm" (ngSubmit)="addNotification()">
+      <table>
+        <tr>
+          <td>Bus Stop Code:</td>
+          <mat-form-field>
+          <td><input matInput type="text" formControlName="busStopCode"></td>
+        </mat-form-field>
+        </tr>
+        <tr>
+          <td>Time:</td>
+          <mat-form-field>
+          <td><input matInput type="time" formControlName="time"></td>
+        </mat-form-field>
+        </tr>
+        <tr>
+          <td>Days of week:</td>
+          <td>
+              <select formControlName="dayOfWeek">
+                <option value="weekdays">Weekdays</option>
+                <option value="weekends">Weekends</option>
+                <option value="everyday">Everyday</option>
+              </select>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button mat-raised-button [disabled]="addNotificationForm.invalid">Submit</button></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</mat-card>
+
+<button mat-raised-button [routerLink]="['/']">Back</button>
