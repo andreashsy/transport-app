@@ -4,7 +4,7 @@
     <p *ngIf="!notifications || notifications.length == 0">No notifications</p>
     <table>
       <tr *ngFor="let notification of notifications; let i = index">
-        <td>{{notification.busStopCode}} | {{notification.dayOfWeek}} | {{notification.time}}</td>
+        <td>Bus Stop Code: {{notification.busStopCode}} | Days of week: {{notification.dayOfWeek}} | Time: {{notification.time}} h</td>
         <td><button mat-button color="warn" (click)="deleteNotification(i)">X</button></td>
       </tr>
     </table>

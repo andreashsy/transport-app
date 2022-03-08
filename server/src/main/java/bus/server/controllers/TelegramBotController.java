@@ -1,18 +1,10 @@
 package bus.server.controllers;
 
-import com.github.kshashov.telegram.api.MessageType;
 import com.github.kshashov.telegram.api.TelegramMvcController;
-import com.github.kshashov.telegram.api.TelegramRequest;
 import com.github.kshashov.telegram.api.bind.annotation.BotController;
 import com.github.kshashov.telegram.api.bind.annotation.BotPathVariable;
-import com.github.kshashov.telegram.api.bind.annotation.BotRequest;
 import com.github.kshashov.telegram.api.bind.annotation.request.MessageRequest;
-import com.pengrad.telegrambot.Callback;
-import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import com.pengrad.telegrambot.request.BaseRequest;
-import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.BaseResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,8 +21,7 @@ import java.util.Optional;
 @BotController
 public class TelegramBotController implements TelegramMvcController{
     private String token = TOKEN_TELEGRAM_BOT;
-    private String defaultReply = """
-        Command not recognised.
+    private String helpReply = """
         List of commands:
         /arrival <5 digit bus stop code> ==> for bus arrival data
         /search <description or road name> ==> for bus stop details
@@ -40,6 +31,7 @@ public class TelegramBotController implements TelegramMvcController{
         /favourite <5 digit bus stop code> ==> to add a bus stop to favourites
         /removefavourite <5 digit bus stop code> ==> to remove a bus stop from favourites
         """;
+    private String catchAllMessage = "Command not recognised. Type /help for list of commands ";
 
     @Autowired
     UserService userService;
@@ -49,14 +41,24 @@ public class TelegramBotController implements TelegramMvcController{
         return token;
     }
 
+    @MessageRequest("/start")
+    public String welcomeMessage() {
+        return helpReply;
+    }
+
+    @MessageRequest("/help")
+    public String helpMessage() {
+        return helpReply;
+    }
+
     @MessageRequest("**")
     public String catchAllMessage() {
-        return defaultReply;
+        return catchAllMessage;
     }
 
     @MessageRequest("/**")
     public String catchAllMessageSlash() {
-        return defaultReply;
+        return catchAllMessage;
     }
 
     @MessageRequest("/arrival {busStopCode:[0-9]+}")
