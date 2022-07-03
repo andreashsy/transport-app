@@ -21,4 +21,5 @@ flowchart LR;
     Backend---MySQL;
     Backend---Firebase;
     Backend---Telegram;
+    Backend---LTA_API;
 ```
