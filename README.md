@@ -14,8 +14,7 @@ Push notifications (Firebase notifications): Backend sends HTTP request to Fireb
 
 Telegram Bot (Java): Allows the user to access the app functionalities using Telegram.
 
-```
-mermaid
+```mermaid
 graph TD;
     A-->B;
     A-->C;
