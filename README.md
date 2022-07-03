@@ -3,8 +3,8 @@ Web application which provides bus services and arrival times for a bus stop. Fu
 
 (Database functions turned off in the deployment due to cost constraints)
 
-# App Design
-Frontend (Angular/Typescript): Single-page web application, ability to get bus arrival times without login. All other functions require login/account creation.
+# App System Design
+Frontend (Angular/Typescript): Single-page web application, ability to get bus arrival times without login. All other functions require login/account creation. All bus stop information stored in local storage.
 
 Backend (SpringBoot/Java): Processes HTTP requests from client, authenticate logins and generates JWT. Sends HTTP requests to the LTA API to get bus arrival information. Also contains logic for Telegram bot.
 
