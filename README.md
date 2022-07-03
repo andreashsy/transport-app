@@ -13,3 +13,12 @@ Persistance (MySQL): Stores user login information, saved notifications and favo
 Push notifications (Firebase notifications): Backend sends HTTP request to Firebase at time of notification.
 
 Telegram Bot (Java): Allows the user to access the app functionalities using Telegram.
+
+```
+mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
