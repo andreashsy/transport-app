@@ -17,6 +17,7 @@ Telegram Bot (Java): Allows the user to access the app functionalities using Tel
 ```mermaid
 flowchart LR;
     Client---Backend;
+    Client-.-LocalStorage;
     Backend---MySQL;
     Backend---Firebase;
     Backend---Telegram;
